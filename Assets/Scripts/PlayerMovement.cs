@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5f;
+    public bool canMove = true;
     private Animator anim;
 
     private string lastDirection = "down"; 
@@ -14,25 +15,28 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        float horizontalMovement = Input.GetAxisRaw("Horizontal");
-        float verticalMovement = Input.GetAxisRaw("Vertical");
-
-        Vector3 movement = new Vector3(horizontalMovement, verticalMovement, 0);
-
-        if (movement.magnitude > 1f)
+        if (canMove)
         {
-            movement.Normalize();
-        }
+            float horizontalMovement = Input.GetAxisRaw("Horizontal");
+            float verticalMovement = Input.GetAxisRaw("Vertical");
 
-        transform.position += movement * speed * Time.deltaTime;
+            Vector3 movement = new Vector3(horizontalMovement, verticalMovement, 0);
 
-        bool isMoving = movement.magnitude > 0.01f;
-        anim.SetBool("isMoving", isMoving);
+            if (movement.magnitude > 1f)
+            {
+                movement.Normalize();
+            }
 
-        if (isMoving)
-        {
-            DetermineLastPressedKey();
-            SetAnimation();
+            transform.position += movement * speed * Time.deltaTime;
+
+            bool isMoving = movement.magnitude > 0.01f;
+            anim.SetBool("isMoving", isMoving);
+
+            if (isMoving)
+            {
+                DetermineLastPressedKey();
+                SetAnimation();
+            }
         }
     }
 
