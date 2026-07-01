@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
-    private InteractableObject currentObject;
+    private InteractableObject currentObject; 
+
     void Update()
     {
         if (currentObject != null && Input.GetKeyDown(KeyCode.E))
@@ -14,7 +15,6 @@ public class PlayerInteract : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         InteractableObject interactable = other.GetComponent<InteractableObject>();
-
         if (interactable != null)
         {
             currentObject = interactable;
@@ -24,7 +24,6 @@ public class PlayerInteract : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         InteractableObject interactable = other.GetComponent<InteractableObject>();
-
         if (interactable != null && interactable == currentObject)
         {
             currentObject = null;
