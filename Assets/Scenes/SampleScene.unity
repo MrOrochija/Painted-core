@@ -6291,7 +6291,6 @@ GameObject:
   - component: {fileID: 1037452871}
   - component: {fileID: 1037452870}
   - component: {fileID: 1037452869}
-  - component: {fileID: 1037452868}
   - component: {fileID: 1037452867}
   m_Layer: 0
   m_Name: FogOfWar
@@ -6301,18 +6300,6 @@ GameObject:
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!114 &1037452867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1037452866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36550ed3ad7c77948af7794c2eb9cd09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FogController
---- !u!114 &1037452868
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
