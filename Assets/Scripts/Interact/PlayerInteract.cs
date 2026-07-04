@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInteract : MonoBehaviour
 {
@@ -6,7 +7,7 @@ public class PlayerInteract : MonoBehaviour
 
     void Update()
     {
-        if (currentObject != null && Input.GetKeyDown(KeyCode.E))
+        if (currentObject != null && Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
         {
             currentObject.Interact();
         }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,50 +16,58 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (canMove)
+        if (!canMove)
         {
-            float horizontalMovement = Input.GetAxisRaw("Horizontal");
-            float verticalMovement = Input.GetAxisRaw("Vertical");
+            anim.SetBool("isMoving", false);
+            return;
+        }
 
-            Vector3 movement = new Vector3(horizontalMovement, verticalMovement, 0);
+        Vector2 movementInput = Vector2.zero;
 
-            if (movement.magnitude > 1f)
-            {
-                movement.Normalize();
-            }
+        if (Keyboard.current != null)
+        {
+            float x = 0;
+            float y = 0;
 
-            transform.position += movement * speed * Time.deltaTime;
+            if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) x -= 1f;
+            if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) x += 1f;
 
-            bool isMoving = movement.magnitude > 0.01f;
-            anim.SetBool("isMoving", isMoving);
+            if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) y -= 1f;
+            if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) y += 1f;
 
-            if (isMoving)
-            {
-                DetermineLastPressedKey();
-                SetAnimation();
-            }
+            movementInput = new Vector2(x, y);
+        }
+
+        if (movementInput.magnitude > 1f)
+        {
+            movementInput.Normalize();
+        }
+
+        Vector3 movement = new Vector3(movementInput.x, movementInput.y, 0);
+        transform.position += movement * speed * Time.deltaTime;
+
+        bool isMoving = movementInput.magnitude > 0.01f;
+        anim.SetBool("isMoving", isMoving);
+
+        if (isMoving)
+        {
+            DetermineLastPressedKey(movementInput);
+            SetAnimation();
         }
     }
 
-    void DetermineLastPressedKey()
+    void DetermineLastPressedKey(Vector2 moveInput)
     {
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) lastDirection = "left";
-        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) lastDirection = "right";
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) lastDirection = "up";
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) lastDirection = "down";
-
-        if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.LeftArrow) && lastDirection == "left") ResetToAnyValidKey();
-        if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.RightArrow) && lastDirection == "right") ResetToAnyValidKey();
-        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.UpArrow) && lastDirection == "up") ResetToAnyValidKey();
-        if (!Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.DownArrow) && lastDirection == "down") ResetToAnyValidKey();
-    }
-
-    void ResetToAnyValidKey()
-    {
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) lastDirection = "left";
-        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) lastDirection = "right";
-        else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) lastDirection = "up";
-        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) lastDirection = "down";
+        if (Mathf.Abs(moveInput.x) > Mathf.Abs(moveInput.y))
+        {
+            if (moveInput.x > 0) lastDirection = "right";
+            else if (moveInput.x < 0) lastDirection = "left";
+        }
+        else
+        {
+            if (moveInput.y > 0) lastDirection = "up";
+            else if (moveInput.y < 0) lastDirection = "down";
+        }
     }
 
     void SetAnimation()

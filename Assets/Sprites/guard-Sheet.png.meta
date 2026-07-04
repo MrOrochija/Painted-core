@@ -67,7 +67,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -81,7 +81,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 28
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -133,12 +133,12 @@ TextureImporter:
       name: guard-Sheet_0
       rect:
         serializedVersion: 2
-        x: 9
+        x: 10
         y: 0
-        width: 30
-        height: 96
+        width: 28
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -155,12 +155,12 @@ TextureImporter:
       name: guard-Sheet_1
       rect:
         serializedVersion: 2
-        x: 57
+        x: 58
         y: 0
-        width: 30
-        height: 95
+        width: 28
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -177,12 +177,12 @@ TextureImporter:
       name: guard-Sheet_2
       rect:
         serializedVersion: 2
-        x: 105
+        x: 106
         y: 0
-        width: 30
-        height: 94
+        width: 28
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -199,12 +199,12 @@ TextureImporter:
       name: guard-Sheet_3
       rect:
         serializedVersion: 2
-        x: 153
+        x: 154
         y: 0
-        width: 30
-        height: 93
+        width: 28
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -221,12 +221,12 @@ TextureImporter:
       name: guard-Sheet_4
       rect:
         serializedVersion: 2
-        x: 200
+        x: 202
         y: 0
-        width: 31
-        height: 96
+        width: 28
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -243,12 +243,12 @@ TextureImporter:
       name: guard-Sheet_5
       rect:
         serializedVersion: 2
-        x: 256
+        x: 250
         y: 0
-        width: 17
-        height: 49
+        width: 28
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -265,12 +265,12 @@ TextureImporter:
       name: guard-Sheet_6
       rect:
         serializedVersion: 2
-        x: 303
+        x: 298
         y: 0
-        width: 24
-        height: 49
+        width: 28
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -287,12 +287,12 @@ TextureImporter:
       name: guard-Sheet_7
       rect:
         serializedVersion: 2
-        x: 351
+        x: 346
         y: 0
-        width: 24
-        height: 49
+        width: 28
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -306,22 +306,66 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: guard-Sheet_8
+      name: guard-Sheet_11
       rect:
         serializedVersion: 2
-        x: 393
+        x: 537
         y: 0
-        width: 30
-        height: 49
+        width: 24
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e698bf90e028530a0800000000000000
+      spriteID: 4e3d0985f2393704a87c9e8a2364f0c5
+      internalID: 1650902601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: guard-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 0
+        width: 15
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92fbc3ec335cd5d4fa87686baf700bca
+      internalID: 1696358765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: guard-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 16
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c56ebfd91571db40844eb903bb09e3b
       internalID: -6902467857066784402
       vertices: []
       indices: 
@@ -331,19 +375,19 @@ TextureImporter:
       name: guard-Sheet_9
       rect:
         serializedVersion: 2
-        x: 441
+        x: 442
         y: 0
-        width: 30
-        height: 49
+        width: 24
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 85f3eaf24cb826ce0800000000000000
+      spriteID: 7c0814bfe05cddc4085af12b4275d0e9
       internalID: -1413413658311114920
       vertices: []
       indices: 
@@ -353,20 +397,152 @@ TextureImporter:
       name: guard-Sheet_10
       rect:
         serializedVersion: 2
-        x: 489
+        x: 496
         y: 0
-        width: 30
-        height: 49
+        width: 16
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 997651a0801017a50800000000000000
+      spriteID: 96880fed926d12642b5d8337b7feda3b
       internalID: 6516991269822359449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: guard-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 22
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bcb396050b3fda48bf35b7f95030874
+      internalID: 2127196975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: guard-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 689
+        y: 0
+        width: 15
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cba363e135274c4ba6d531d58a6367a
+      internalID: 1335291923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: guard-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 0
+        width: 22
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea549bb75c025aa499ca67b06c7dfef6
+      internalID: 654021584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: guard-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 0
+        width: 28
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a50ac7c039d8b2c4bb7ed80b40305c50
+      internalID: 576305338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: guard-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 826
+        y: 0
+        width: 27
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 394cffd0fb63e134999db5de6dd2edaa
+      internalID: -783703765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: guard-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 874
+        y: 0
+        width: 28
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a4e557612d016e429963cafb03083ac
+      internalID: -2052790248
       vertices: []
       indices: 
       edges: []
@@ -375,7 +551,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5617527ee50d0fb48994814bd58fb768
     internalID: 0
     vertices: []
     indices: 
@@ -383,11 +559,23 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":28.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+      - key: SpriteEditor.SliceOnImport
+        value: False
     nameFileIdTable:
       guard-Sheet_0: -6309394460542624400
       guard-Sheet_1: -3069369557337935938
       guard-Sheet_10: 6516991269822359449
+      guard-Sheet_11: 1650902601
+      guard-Sheet_12: 1696358765
+      guard-Sheet_13: 2127196975
+      guard-Sheet_14: 1335291923
+      guard-Sheet_15: 654021584
+      guard-Sheet_16: 576305338
+      guard-Sheet_17: -783703765
+      guard-Sheet_18: -2052790248
       guard-Sheet_2: -5489915539845580906
       guard-Sheet_3: -2113595449359534167
       guard-Sheet_4: 4630552370727556292
