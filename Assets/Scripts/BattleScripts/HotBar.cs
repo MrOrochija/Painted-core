@@ -10,15 +10,16 @@ public class HotBar : MonoBehaviour
     private int currentSelection = 1;
     [HideInInspector] public bool isBattleActive;
     [HideInInspector] public EnemyInteract enemyScript;
-    public BattleSystem BattleSystemScript;
+    private BattleSystem BattleSystemScript;
 
     public GameObject battleZone;
+    public GameObject selectFigure;
 
     private Image imgA;
     private Image imgB;
     private Image imgC;
 
-    public bool isFighting = false;
+    [HideInInspector] public bool isFighting = false;
 
     void Start()
     {
@@ -62,6 +63,7 @@ public class HotBar : MonoBehaviour
                 {
                     isFighting = true;
                     battleZone.SetActive(true);
+                    selectFigure.SetActive(true);
 
                     StartCoroutine(BattleSystemScript.startBattle());
                 }

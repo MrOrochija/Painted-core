@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class BattleSystem : MonoBehaviour
 {
-    public GameObject zone;
     public GameObject battleZone;
+    private GameObject zone;
+    public GameObject selectFigure;
     
     public GameObject HotBar;
     private HotBar HotBarScript;
@@ -22,6 +23,16 @@ public class BattleSystem : MonoBehaviour
         if (Line == null || Circle == null || Triangle == null || Square == null)
         {
             return;
+        }
+
+        if (battleZone != null)
+        {
+            Transform zoneTransform = battleZone.transform.Find("Zone");
+            
+            if (zoneTransform != null)
+            {
+                zone = zoneTransform.gameObject; 
+            }
         }
 
         if (zone != null)
@@ -41,7 +52,6 @@ public class BattleSystem : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-
             GameObject currentFigure = spawnFigure();
 
             yield return new WaitForSeconds(5f);
@@ -60,12 +70,14 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         battleZone.SetActive(false);
+        selectFigure.SetActive(false);
         HotBarScript.isFighting = false;
     }
 
     public GameObject spawnFigure()
     {
         if (zoneCollider == null) return null;
+        
 
         Vector3 spawnPosition = GetRandomPositionInZone();
         int randomInt = Random.Range(0, 4);
@@ -94,8 +106,17 @@ public class BattleSystem : MonoBehaviour
     private Vector3 GetRandomPositionInZone()
     {
         Bounds bounds = zoneCollider.bounds;
-        float randomX = Random.Range(bounds.min.x, bounds.max.x);
-        float randomY = Random.Range(bounds.min.y, bounds.max.y); 
+
+        float minX = bounds.min.x + 0.5f;
+        float maxX = bounds.max.x - 0.5f;
+        float minY = bounds.min.y + 0.5f;
+        float maxY = bounds.max.y - 0.5f;
+
+        if (minX > maxX) minX = maxX = bounds.center.x;
+        if (minY > maxY) minY = maxY = bounds.center.y;
+
+        float randomX = Random.Range(minX, maxX);
+        float randomY = Random.Range(minY, maxY); 
         float randomZ = Random.Range(bounds.min.z, bounds.max.z);
 
         return new Vector3(randomX, randomY, randomZ);

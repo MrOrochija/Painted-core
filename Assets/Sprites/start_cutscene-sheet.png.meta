@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: be882acb0119f6645a0b589e228fe121
+guid: ed9b4c55ba5d862488e594a5b7675111
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6231044458718751821
-    second: circle_0
+      213: 4001641567969003962
+    second: start_cutscene-sheet_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +24,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: circle_0
+      name: start_cutscene-sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 16
+        width: 1440
+        height: 270
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3b3176a0412e689a0800000000000000
-      internalID: -6231044458718751821
+      spriteID: ab9ca31fdcfa88730800000000000000
+      internalID: 4001641567969003962
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      circle_0: -6231044458718751821
+      start_cutscene-sheet_0: 4001641567969003962
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
