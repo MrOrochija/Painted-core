@@ -11,7 +11,7 @@ public class SelectFigure : MonoBehaviour
     private GameObject squareObject;
     private SpriteRenderer spriteRenderer;
 
-    private int currentSelection = 1;
+    [HideInInspector] public int currentSelection = 1;
 
     void Start()
     {

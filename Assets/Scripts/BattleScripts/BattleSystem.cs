@@ -1,22 +1,24 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BattleSystem : MonoBehaviour
 {
+    public GameObject playerModel;
     public GameObject battleZone;
-    private GameObject zone;
     public GameObject selectFigure;
-    
+    public GameObject heartBar;
     public GameObject HotBar;
-    private HotBar HotBarScript;
 
     public GameObject Line;
     public GameObject Circle;
     public GameObject Triangle;
     public GameObject Square;
 
+    private EnemyInteract enemyScript;
+    private GameObject zone;
+    private HotBar HotBarScript;
     private Collider2D zoneCollider;
+    private GameObject heartFrame;
 
     void Start()
     {
@@ -44,21 +46,40 @@ public class BattleSystem : MonoBehaviour
         {
             HotBarScript = HotBar.GetComponent<HotBar>();
         }
+
+        if (heartBar != null)
+        {
+            Transform heartFrameTransform = heartBar.transform.Find("Image");
+
+            if (heartFrameTransform != null)
+            {
+                heartFrame = heartFrameTransform.gameObject;
+            }
+        }
     }
 
-    public IEnumerator startBattle()
+    public IEnumerator startBattle(EnemyInteract eScript)
     {
+        enemyScript = eScript;
+
         yield return new WaitForSeconds(2f); 
 
         for (int i = 0; i < 5; i++)
         {
             GameObject currentFigure = spawnFigure();
 
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(3f);
 
             if (currentFigure != null)
             {
-                Destroy(currentFigure);
+                yield return StartCoroutine(MoveAndDestroyFigure(currentFigure));
+
+                if (heartFrame != null)
+                {
+                    float targetX = Mathf.Max(0f, heartFrame.transform.localScale.x - 0.1f);
+                    
+                    yield return StartCoroutine(SmoothDecreaseHeart(targetX));
+                }
             }
 
             if (i < 4) 
@@ -72,12 +93,58 @@ public class BattleSystem : MonoBehaviour
         battleZone.SetActive(false);
         selectFigure.SetActive(false);
         HotBarScript.isFighting = false;
+        HotBarScript.setIsFightingForHeartMonitoring(false);
+    }
+
+    private IEnumerator SmoothDecreaseHeart(float targetX)
+    {
+        float duration = 0.3f;
+        float elapsedTime = 0f;
+        
+        Vector3 startScale = heartFrame.transform.localScale;
+        Vector3 targetScale = new Vector3(targetX, startScale.y, startScale.z);
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            
+            heartFrame.transform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / duration);
+            
+            yield return null;
+        }
+
+        heartFrame.transform.localScale = targetScale;
+    }
+
+    private IEnumerator MoveAndDestroyFigure(GameObject figure)
+    {
+        float currentSpeed = 1f;
+        float acceleration = 100f;
+        float closeEnoughDistance = 0.2f;
+
+        while (figure != null && playerModel != null && 
+               Vector3.Distance(figure.transform.position, playerModel.transform.position) > closeEnoughDistance)
+        {
+            currentSpeed += acceleration * Time.deltaTime;
+
+            figure.transform.position = Vector3.MoveTowards(
+                figure.transform.position, 
+                playerModel.transform.position, 
+                currentSpeed * Time.deltaTime
+            );
+
+            yield return null; 
+        }
+
+        if (figure != null)
+        {
+            Destroy(figure);
+        }
     }
 
     public GameObject spawnFigure()
     {
         if (zoneCollider == null) return null;
-        
 
         Vector3 spawnPosition = GetRandomPositionInZone();
         int randomInt = Random.Range(0, 4);

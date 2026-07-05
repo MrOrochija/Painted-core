@@ -13,7 +13,9 @@ public class HotBar : MonoBehaviour
     private BattleSystem BattleSystemScript;
 
     public GameObject battleZone;
-    public GameObject selectFigure;
+    private GameObject selectFigure;
+    public GameObject battle;
+    private HeartMonitoring heartMonitoring;
 
     private Image imgA;
     private Image imgB;
@@ -23,6 +25,17 @@ public class HotBar : MonoBehaviour
 
     void Start()
     {
+        if (battle != null)
+        {
+            heartMonitoring = battle.GetComponent<HeartMonitoring>();    
+        }
+
+        Transform selectFigureTransform = gameObject.transform.Find("selectFigure");
+        if (selectFigureTransform != null)
+        {
+            selectFigure = selectFigureTransform.gameObject;    
+        }
+
         if (battleZone != null)
         {
             BattleSystemScript = battleZone.GetComponent<BattleSystem>();    
@@ -62,10 +75,11 @@ public class HotBar : MonoBehaviour
                 if (currentSelection == 1)
                 {
                     isFighting = true;
+                    heartMonitoring.isFighting = true;
                     battleZone.SetActive(true);
                     selectFigure.SetActive(true);
 
-                    StartCoroutine(BattleSystemScript.startBattle());
+                    StartCoroutine(BattleSystemScript.startBattle(enemyScript));
                 }
 
                 if (currentSelection == 2)
@@ -113,10 +127,14 @@ public class HotBar : MonoBehaviour
         Transform slotTransform = transform.Find(slotName);
         if (slotTransform == null)
         {
-            Debug.LogError($"[HotBar] Не найден объект с именем {slotName} на {gameObject.name}!");
             return null;
         }
 
         return slotTransform.GetComponent<Image>();
+    }
+
+    public void setIsFightingForHeartMonitoring(bool value)
+    {
+        heartMonitoring.isFighting = value;
     }
 }
