@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,67 +9,86 @@ public class SelectFigure : MonoBehaviour
     public Sprite Triangle;
     public Sprite Square;
 
-    private GameObject squareObject;
-    private SpriteRenderer spriteRenderer;
+    public GameObject figureModel;
+    private SpriteRenderer figureSr;
+    private Sprite[] figures;
+    private int currentFigureIndex = 0;
 
-    [HideInInspector] public int currentSelection = 1;
+    public Sprite leftArrow;
+    public Sprite leftBoldArrow;
+    public Sprite rightArrow;
+    public Sprite rightBoldArrow;
+
+    public GameObject leftArrowModel;
+    public GameObject rightArrowModel;
+
+    private SpriteRenderer leftArrowSr;
+    private SpriteRenderer rightArrowSr;
+
+    [HideInInspector] public bool inFight = false;
 
     void Start()
     {
-        Transform squareTransform = transform.Find("Frame/Square");
+        if (leftArrowModel != null) leftArrowSr = leftArrowModel.GetComponent<SpriteRenderer>();
+        if (rightArrowModel != null) rightArrowSr = rightArrowModel.GetComponent<SpriteRenderer>();
 
-        if (squareTransform != null)
-        {
-            squareObject = squareTransform.gameObject;
-            spriteRenderer = squareObject.GetComponent<SpriteRenderer>();
-        }
+        if (figureModel != null) figureSr = figureModel.GetComponent<SpriteRenderer>();
+        
+        figures = new Sprite[] { Line, Circle, Triangle, Square };
 
-        UpdateSprite();
+        UpdateFigureSprite();
     }
 
     void Update()
     {
-        if (Keyboard.current == null) return;
-
-        if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
+        if (inFight && Keyboard.current != null)
         {
-            currentSelection++;
-            if (currentSelection > 4)
+            if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
             {
-                currentSelection = 1;
+                if (rightArrowSr != null) StartCoroutine(FlashArrow(rightArrowSr, rightBoldArrow, rightArrow));
+                
+                ChangeFigure(1);
             }
-            UpdateSprite();
-        }
 
-        if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
-        {
-            currentSelection--;
-            if (currentSelection < 1)
+            if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
             {
-                currentSelection = 4;
+                if (leftArrowSr != null) StartCoroutine(FlashArrow(leftArrowSr, leftBoldArrow, leftArrow));
+                
+                ChangeFigure(-1);
             }
-            UpdateSprite();
         }
     }
 
-    private void UpdateSprite()
+    private void ChangeFigure(int direction)
     {
-        if (spriteRenderer == null) return;
+        if (figures == null || figures.Length == 0) return;
 
-        switch (currentSelection)
+        currentFigureIndex += direction;
+
+        if (currentFigureIndex >= figures.Length)
         {
-            case 1:
-                spriteRenderer.sprite = Line;
-                break;
-            case 2:
-                spriteRenderer.sprite = Circle;
-                break;
-            case 3:
-                spriteRenderer.sprite = Triangle;
-                break;
-            case 4:
-                spriteRenderer.sprite = Square;
-                break;
+            currentFigureIndex = 0;
         }
+        else if (currentFigureIndex < 0)
+        {
+            currentFigureIndex = figures.Length - 1;
+        }
+
+        UpdateFigureSprite();
+    }
+
+    private void UpdateFigureSprite()
+    {
+        if (figureSr != null && figures[currentFigureIndex] != null)
+        {
+            figureSr.sprite = figures[currentFigureIndex];
+        }
+    }
+
+    private IEnumerator FlashArrow(SpriteRenderer sr, Sprite boldSprite, Sprite normalSprite)
+    {
+        sr.sprite = boldSprite;
+        yield return new WaitForSeconds(0.1f);
+        sr.sprite = normalSprite;
     }
 }
