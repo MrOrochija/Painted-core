@@ -13,7 +13,7 @@ public class SelectAction : MonoBehaviour
     private Image slotB;
     private Image slotC;
 
-    [HideInInspector] public bool inBattle = false, inFight = false;
+    private bool active = false;
     [HideInInspector] public int currentSelection = 1;
 
     void Start()
@@ -40,9 +40,9 @@ public class SelectAction : MonoBehaviour
 
     void Update()
     {
-        if (inBattle && !inFight && Keyboard.current != null)
+        if (active && Keyboard.current != null)
         {
-            if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
+            if (Keyboard.current.dKey.wasPressedThisFrame)
             {
                 if (currentSelection < 3) 
                 {
@@ -51,7 +51,7 @@ public class SelectAction : MonoBehaviour
                 }
             }
 
-            if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
+            if (Keyboard.current.aKey.wasPressedThisFrame)
             {
                 
                 if (currentSelection > 1) 
@@ -61,7 +61,7 @@ public class SelectAction : MonoBehaviour
                 }
             }
 
-            if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            if (Keyboard.current.enterKey.wasPressedThisFrame)
             {
                 battleSystem.SelectAction(currentSelection);
             }
@@ -81,5 +81,15 @@ public class SelectAction : MonoBehaviour
         {
             slotImage.sprite = isSelected ? slotSelect : slotNotSelect;
         }
+    }
+
+    public void Activate()
+    {
+        active = true;
+    }
+
+    public void Deactivate()
+    {
+        active = false;
     }
 }

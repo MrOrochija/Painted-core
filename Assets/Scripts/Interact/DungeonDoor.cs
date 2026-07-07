@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,9 +10,9 @@ public class DungeonDoor : InteractableObject
 
     public Transform targetExitPoint;
     public Transform playerTransform;
+    private PlayerMovement playerMovement;
     public Image fadeImage;
-    public float fadeDuration = 0.5f;
-    public bool coolDown = false;
+    [HideInInspector] public bool coolDown = false;
 
     void Start()
     {
@@ -21,12 +22,19 @@ public class DungeonDoor : InteractableObject
         {
             targetScript = targetExitPoint.GetComponent<DungeonDoor>();
         }
+
+        if (playerTransform != null)
+        {
+            playerMovement = playerTransform.GetComponent<PlayerMovement>();
+        }
     }
 
     public override void Interact()
     {
         if (!coolDown)
         {
+            coolDown = true;
+            playerMovement.canMove = false;
             StartCoroutine(InteractRoutine());
         }
     }
@@ -35,7 +43,6 @@ public class DungeonDoor : InteractableObject
     {
         if (targetScript != null)
         {
-            coolDown = true;
             targetScript.coolDown = true;
         }
         
@@ -62,6 +69,7 @@ public class DungeonDoor : InteractableObject
 
         if (fadeImage != null)
         {
+            playerMovement.canMove = true;
             yield return StartCoroutine(Fade(0));
         }
 
@@ -79,7 +87,7 @@ public class DungeonDoor : InteractableObject
 
     private IEnumerator Fade(float targetAlpha)
     {
-        float speed = 1f / fadeDuration;
+        float speed = 1f / 0.5f;
         float currentAlpha = fadeImage.color.a;
 
         while (!Mathf.Approximately(currentAlpha, targetAlpha))

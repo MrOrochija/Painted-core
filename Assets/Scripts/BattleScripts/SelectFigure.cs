@@ -12,7 +12,7 @@ public class SelectFigure : MonoBehaviour
     public GameObject figureModel;
     private SpriteRenderer figureSr;
     private Sprite[] figures;
-    private int currentFigureIndex = 0;
+    [HideInInspector] public int currentFigureIndex = 0;
 
     public Sprite leftArrow;
     public Sprite leftBoldArrow;
@@ -25,7 +25,7 @@ public class SelectFigure : MonoBehaviour
     private SpriteRenderer leftArrowSr;
     private SpriteRenderer rightArrowSr;
 
-    [HideInInspector] public bool inFight = false;
+    private bool active = false;
 
     void Start()
     {
@@ -41,16 +41,16 @@ public class SelectFigure : MonoBehaviour
 
     void Update()
     {
-        if (inFight && Keyboard.current != null)
+        if (active && Keyboard.current != null)
         {
-            if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
+            if (Keyboard.current.dKey.wasPressedThisFrame)
             {
                 if (rightArrowSr != null) StartCoroutine(FlashArrow(rightArrowSr, rightBoldArrow, rightArrow));
                 
                 ChangeFigure(1);
             }
 
-            if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
+            if (Keyboard.current.aKey.wasPressedThisFrame)
             {
                 if (leftArrowSr != null) StartCoroutine(FlashArrow(leftArrowSr, leftBoldArrow, leftArrow));
                 
@@ -90,5 +90,15 @@ public class SelectFigure : MonoBehaviour
         sr.sprite = boldSprite;
         yield return new WaitForSeconds(0.1f);
         sr.sprite = normalSprite;
+    }
+
+    public void Activate()
+    {
+        active = true;
+    }
+
+    public void Deactivate()
+    {
+        active = false;
     }
 }

@@ -3,8 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 5f;
-    public bool canMove = true;
+    [HideInInspector] public bool canMove = true;
     private Animator anim;
 
     private string lastDirection = "down"; 
@@ -44,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector3 movement = new Vector3(movementInput.x, movementInput.y, 0);
-        transform.position += movement * speed * Time.deltaTime;
+        transform.position += movement * 5f * Time.deltaTime;
 
         bool isMoving = movementInput.magnitude > 0.01f;
         anim.SetBool("isMoving", isMoving);

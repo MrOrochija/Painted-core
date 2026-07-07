@@ -12,7 +12,6 @@ public class EnemyTrigger : MonoBehaviour
     private BattleSystem battleSystem;
     private PlayerMovement plrMovement;
     private GameObject enemy;
-    private Collider2D enemyCollider;
     private bool inBattle = false;
 
     void Start()
@@ -25,8 +24,6 @@ public class EnemyTrigger : MonoBehaviour
         if (enemyTransform != null)
         {
             enemy = enemyTransform.gameObject;
-            
-            enemyCollider = GetComponent<Collider2D>();
         }
     }
 
