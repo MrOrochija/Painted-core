@@ -61,7 +61,14 @@ public class EnemyTrigger : MonoBehaviour
 
         yield return StartCoroutine(Fade(0));
 
-        battleSystem.StartBattle(this);
+        Transform enemyTransform = transform.parent;
+
+        if (enemyTransform != null)
+        {
+            EnemyHealth enemyHealth = enemyTransform.GetComponent<EnemyHealth>();
+
+            battleSystem.StartBattle(this, enemyHealth);
+        }
     }
 
     public IEnumerator RunAway()

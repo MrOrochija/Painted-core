@@ -1,9 +1,11 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
-using Unity.VisualScripting;
+using System.Collections;
 
 public class BattleSystem : MonoBehaviour
 {
+    public GameObject player;
+    private PlayerHealth playerHealth;
     private LayerMask zoneLayerMask;
 
     private Sprite Line;
@@ -13,9 +15,13 @@ public class BattleSystem : MonoBehaviour
     [HideInInspector] public Sprite[] figures;
 
     private EnemyTrigger enemyTrigger;
+    private EnemyHealth enemyHealth;
     private SelectAction selectAction;
     private SelectFigure selectFigure;
     private FigureSpawner figureSpawner;
+
+    public RectTransform playerHealthBarRect;
+    public RectTransform enemyHealthBarRect;
 
     private GameObject battleZone;
     [HideInInspector] public GameObject zone;
@@ -37,6 +43,11 @@ public class BattleSystem : MonoBehaviour
 
         zoneLayerMask = LayerMask.GetMask("BattleZone");
 
+        if (player != null)
+        {
+            playerHealth = player.GetComponent<PlayerHealth>();
+        }
+
         Transform battleZoneTransform = transform.Find("BattleZone");
         if (battleZoneTransform != null)
         {
@@ -53,6 +64,8 @@ public class BattleSystem : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
+
+        InitializeHealthBars();
     }
 
     void Update()
@@ -82,10 +95,14 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    public void StartBattle(EnemyTrigger script)
+    public void StartBattle(EnemyTrigger script, EnemyHealth script2)
     {
         if (script != null) enemyTrigger = script;
+        if (script2 != null) enemyHealth = script2;
+
         selectAction.Activate();
+
+        InitializeHealthBars();
     }
 
     public void SelectAction(int action)
@@ -108,5 +125,79 @@ public class BattleSystem : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    public void PlayerGetDamage(int damage)
+    {
+        if (playerHealth != null)
+        {
+            playerHealth.GetDamage(damage);
+            StartCoroutine(AnimateHealthBar(playerHealthBarRect, playerHealth.currentHealth, playerHealth.maxHealth));
+        }
+    }
+
+    public void EnemyGetDamage(int damage)
+    {
+        if (enemyHealth != null)
+        {
+            enemyHealth.GetDamage(damage);
+            StartCoroutine(AnimateHealthBar(enemyHealthBarRect, enemyHealth.currentHealth, enemyHealth.maxHealth));
+        }
+    }
+
+    public void PlayerHeal(int healAmount)
+    {
+        if (playerHealth != null)
+        {
+            playerHealth.Heal(healAmount); 
+            StartCoroutine(AnimateHealthBar(playerHealthBarRect, playerHealth.currentHealth, playerHealth.maxHealth));
+        }
+    }
+
+    public void EnemyHeal(int healAmount)
+    {
+        if (enemyHealth != null)
+        {
+            enemyHealth.Heal(healAmount);
+            StartCoroutine(AnimateHealthBar(enemyHealthBarRect, enemyHealth.currentHealth, enemyHealth.maxHealth));
+        }
+    }
+
+    private void InitializeHealthBars()
+    {
+    if (playerHealth != null && playerHealthBarRect != null)
+        {
+            float targetXScale = Mathf.Clamp01((float)playerHealth.currentHealth / playerHealth.maxHealth);
+            playerHealthBarRect.localScale = new Vector3(targetXScale, playerHealthBarRect.localScale.y, playerHealthBarRect.localScale.z);
+        }
+
+        if (enemyHealth != null && enemyHealthBarRect != null)
+        {
+            float targetXScale = Mathf.Clamp01((float)enemyHealth.currentHealth / enemyHealth.maxHealth);
+            enemyHealthBarRect.localScale = new Vector3(targetXScale, enemyHealthBarRect.localScale.y, enemyHealthBarRect.localScale.z);
+        }
+    }
+
+    private IEnumerator AnimateHealthBar(RectTransform barRect, float currentHealth, float maxHealth)
+    {
+        if (barRect == null) yield break;
+
+        Vector3 initialScale = barRect.localScale;
+        float targetXScale = Mathf.Clamp01(currentHealth / maxHealth);
+        Vector3 finalScale = new Vector3(targetXScale, initialScale.y, initialScale.z);
+
+        float timer = 0f;
+
+        while (timer < 0.5f)
+        {
+            timer += Time.deltaTime;
+            float progress = timer / 0.5f;
+
+            barRect.localScale = Vector3.Lerp(initialScale, finalScale, progress);
+            
+            yield return null;
+        }
+
+        barRect.localScale = finalScale;
     }
 }
