@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement; 
 
 public class RoomTeleport : MonoBehaviour
 {
-    public Transform exitTarget;
+    public string targetSceneName; 
+    
+    public string targetSpawnPointName;
+
     public Image fadeImage;
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -17,27 +21,17 @@ public class RoomTeleport : MonoBehaviour
 
     private IEnumerator MovePlayer(GameObject player)
     {
-        if (exitTarget != null)
+        if (!string.IsNullOrEmpty(targetSceneName))
         {
             PlayerMovement movement = player.GetComponent<PlayerMovement>();
-            
-            if (movement != null) 
-            {
-                movement.canMove = false;
-            }
+            if (movement != null) movement.canMove = false;
 
             yield return StartCoroutine(Fade(1));
             
-            player.transform.position = exitTarget.position;
+            PlayerPrefs.SetString("NextSpawnPoint", targetSpawnPointName);
+            PlayerPrefs.Save();
 
-            yield return new WaitForSeconds(0.2f);
-            
-            yield return StartCoroutine(Fade(0));
-
-            if (movement != null) 
-            {
-                movement.canMove = true;
-            }
+            SceneManager.LoadScene(targetSceneName);
         }
     }
 
@@ -45,7 +39,6 @@ public class RoomTeleport : MonoBehaviour
     {
         float speed = 1f / 0.5f;
         float currentAlpha = fadeImage.color.a;
-
         while (!Mathf.Approximately(currentAlpha, targetAlpha))
         {
             currentAlpha = Mathf.MoveTowards(currentAlpha, targetAlpha, speed * Time.deltaTime);
