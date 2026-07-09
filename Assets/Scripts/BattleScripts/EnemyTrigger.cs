@@ -14,6 +14,8 @@ public class EnemyTrigger : MonoBehaviour
     private GameObject enemy;
     private bool inBattle = false;
 
+    private SpriteRenderer enemySpriteRenderer;
+
     void Start()
     {
         if (battle != null) battleSystem = battle.GetComponent<BattleSystem>();
@@ -24,6 +26,8 @@ public class EnemyTrigger : MonoBehaviour
         if (enemyTransform != null)
         {
             enemy = enemyTransform.gameObject;
+
+            enemySpriteRenderer = enemy.GetComponent<SpriteRenderer>();
         }
     }
 
@@ -78,7 +82,6 @@ public class EnemyTrigger : MonoBehaviour
         player.transform.position = enemy.transform.position;
 
         yield return new WaitForSeconds(0.5f);
-
         yield return StartCoroutine(Fade(0));
 
         plrMovement.canMove = true;
@@ -86,6 +89,47 @@ public class EnemyTrigger : MonoBehaviour
         yield return new WaitForSeconds(5f);
 
         inBattle = false;
+    }
+
+    public IEnumerator EnemyDead()
+    {
+        yield return StartCoroutine(Fade(1));
+
+        player.transform.position = enemy.transform.position;
+        SetEnemyAlpha(0);
+
+        yield return new WaitForSeconds(0.5f);
+        yield return StartCoroutine(Fade(0));
+
+        plrMovement.canMove = true;
+
+        Destroy(enemy);
+    }
+
+    public IEnumerator PlayerDead()
+    {
+        yield return StartCoroutine(Fade(1));
+
+        player.transform.position = enemy.transform.position;
+
+        yield return new WaitForSeconds(0.5f);
+        yield return StartCoroutine(Fade(0));
+
+        plrMovement.canMove = true;
+
+        yield return new WaitForSeconds(5f);
+
+        inBattle = false;
+    }
+
+    private void SetEnemyAlpha(float alpha)
+    {
+        if (enemySpriteRenderer != null)
+        {
+            Color color = enemySpriteRenderer.color;
+            color.a = alpha;
+            enemySpriteRenderer.color = color;
+        }
     }
 
     private IEnumerator Fade(float targetAlpha)

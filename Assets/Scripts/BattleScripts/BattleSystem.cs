@@ -1,6 +1,15 @@
-using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System.Collections;
+using System.Collections.Generic;
+
+[System.Serializable]
+public class BattleFigure
+{
+    public string name;
+    public Sprite sprite;
+    public int manaCost;
+}
 
 public class BattleSystem : MonoBehaviour
 {
@@ -8,11 +17,7 @@ public class BattleSystem : MonoBehaviour
     private PlayerHealth playerHealth;
     private LayerMask zoneLayerMask;
 
-    private Sprite Line;
-    private Sprite Circle;
-    private Sprite Triangle;
-    private Sprite Square;
-    [HideInInspector] public Sprite[] figures;
+    [HideInInspector] public BattleFigure[] figures;
 
     private EnemyTrigger enemyTrigger;
     private EnemyHealth enemyHealth;
@@ -20,6 +25,7 @@ public class BattleSystem : MonoBehaviour
     private SelectFigure selectFigure;
     private FigureSpawner figureSpawner;
 
+    public RectTransform playerManaBarRect;
     public RectTransform playerHealthBarRect;
     public RectTransform enemyHealthBarRect;
 
@@ -27,6 +33,12 @@ public class BattleSystem : MonoBehaviour
     [HideInInspector] public GameObject zone;
 
     private Camera mainCamera;
+    private bool coolDown = false;
+
+    private int maxMana = 100;
+    private int currentMana = 0;
+
+    private Dictionary<RectTransform, Coroutine> barAnimations = new Dictionary<RectTransform, Coroutine>();
 
     void Awake()
     {
@@ -34,12 +46,13 @@ public class BattleSystem : MonoBehaviour
         selectAction = gameObject.GetComponent<SelectAction>();
         selectFigure = gameObject.GetComponent<SelectFigure>();
 
-        Line = selectFigure.Line;
-        Circle = selectFigure.Circle;
-        Triangle = selectFigure.Triangle;
-        Square = selectFigure.Square;
-
-        figures = new Sprite[] { Line, Circle, Triangle, Square };
+        figures = new BattleFigure[]
+        {
+            new BattleFigure { name = "Line", sprite = selectFigure.Line, manaCost = 0 },
+            new BattleFigure { name = "Circle", sprite = selectFigure.Circle, manaCost = 0 },
+            new BattleFigure { name = "Triangle", sprite = selectFigure.Triangle, manaCost = 50 },
+            new BattleFigure { name = "Square", sprite = selectFigure.Square, manaCost = 50 }
+        };
 
         zoneLayerMask = LayerMask.GetMask("BattleZone");
 
@@ -64,8 +77,7 @@ public class BattleSystem : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
-
-        InitializeHealthBars();
+        InitializeBars();
     }
 
     void Update()
@@ -78,7 +90,8 @@ public class BattleSystem : MonoBehaviour
 
     private void DetectZoneClick()
     {
-        if (figures == null || figures.Length == 0 || zone == null) return;
+        if (coolDown || figures == null || figures.Length == 0 || zone == null) return;
+        coolDown = true;
 
         Vector2 mouseScreenPos = Pointer.current.position.ReadValue();
         
@@ -91,8 +104,27 @@ public class BattleSystem : MonoBehaviour
         if (hitCollider != null && hitCollider.gameObject == zone)
         {
             int index = Mathf.Clamp(selectFigure.currentFigureIndex, 0, figures.Length - 1);
-            figureSpawner.SpawnFigure(figures[index], mouseWorldPosition, "Player");
+            BattleFigure selectedFigure = figures[index];
+            
+            if (selectedFigure.manaCost > 0)
+            {
+                if (!UseMana(selectedFigure.manaCost))
+                {
+                    StartCoroutine(ResetCoolDown(1f));
+                    return;
+                }
+            }
+
+            figureSpawner.SpawnFigure(selectedFigure.sprite, mouseWorldPosition, "Player");
         }
+
+        StartCoroutine(ResetCoolDown(1f));
+    }
+
+    private IEnumerator ResetCoolDown(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        coolDown = false;
     }
 
     public void StartBattle(EnemyTrigger script, EnemyHealth script2)
@@ -100,9 +132,10 @@ public class BattleSystem : MonoBehaviour
         if (script != null) enemyTrigger = script;
         if (script2 != null) enemyHealth = script2;
 
-        selectAction.Activate();
+        currentMana = 0;
 
-        InitializeHealthBars();
+        selectAction.Activate();
+        InitializeBars();
     }
 
     public void SelectAction(int action)
@@ -132,7 +165,17 @@ public class BattleSystem : MonoBehaviour
         if (playerHealth != null)
         {
             playerHealth.GetDamage(damage);
-            StartCoroutine(AnimateHealthBar(playerHealthBarRect, playerHealth.currentHealth, playerHealth.maxHealth));
+            SafeAnimateBar(playerHealthBarRect, playerHealth.currentHealth, playerHealth.maxHealth);
+
+            if (playerHealth.currentHealth <= 0)
+            {
+                if (figureSpawner != null) figureSpawner.Deactivate();
+
+                if (enemyTrigger != null)
+                {
+                    StartCoroutine(enemyTrigger.PlayerDead()); 
+                }
+            }
         }
     }
 
@@ -141,7 +184,17 @@ public class BattleSystem : MonoBehaviour
         if (enemyHealth != null)
         {
             enemyHealth.GetDamage(damage);
-            StartCoroutine(AnimateHealthBar(enemyHealthBarRect, enemyHealth.currentHealth, enemyHealth.maxHealth));
+            SafeAnimateBar(enemyHealthBarRect, enemyHealth.currentHealth, enemyHealth.maxHealth);
+
+            if (enemyHealth.currentHealth <= 0)
+            {
+                if (figureSpawner != null) figureSpawner.Deactivate();
+
+                if (enemyTrigger != null)
+                {
+                    StartCoroutine(enemyTrigger.EnemyDead());
+                }
+            }
         }
     }
 
@@ -150,7 +203,7 @@ public class BattleSystem : MonoBehaviour
         if (playerHealth != null)
         {
             playerHealth.Heal(healAmount); 
-            StartCoroutine(AnimateHealthBar(playerHealthBarRect, playerHealth.currentHealth, playerHealth.maxHealth));
+            SafeAnimateBar(playerHealthBarRect, playerHealth.currentHealth, playerHealth.maxHealth);
         }
     }
 
@@ -159,13 +212,30 @@ public class BattleSystem : MonoBehaviour
         if (enemyHealth != null)
         {
             enemyHealth.Heal(healAmount);
-            StartCoroutine(AnimateHealthBar(enemyHealthBarRect, enemyHealth.currentHealth, enemyHealth.maxHealth));
+            SafeAnimateBar(enemyHealthBarRect, enemyHealth.currentHealth, enemyHealth.maxHealth);
         }
     }
 
-    private void InitializeHealthBars()
+    public bool UseMana(int amount)
     {
-    if (playerHealth != null && playerHealthBarRect != null)
+        if (currentMana >= amount)
+        {
+            currentMana -= amount;
+            SafeAnimateBar(playerManaBarRect, currentMana, maxMana);
+            return true;
+        }
+        return false;
+    }
+
+    public void RestoreMana(int amount)
+    {
+        currentMana = Mathf.Clamp(currentMana + amount, 0, maxMana);
+        SafeAnimateBar(playerManaBarRect, currentMana, maxMana);
+    }
+
+    private void InitializeBars()
+    {
+        if (playerHealth != null && playerHealthBarRect != null)
         {
             float targetXScale = Mathf.Clamp01((float)playerHealth.currentHealth / playerHealth.maxHealth);
             playerHealthBarRect.localScale = new Vector3(targetXScale, playerHealthBarRect.localScale.y, playerHealthBarRect.localScale.z);
@@ -176,28 +246,49 @@ public class BattleSystem : MonoBehaviour
             float targetXScale = Mathf.Clamp01((float)enemyHealth.currentHealth / enemyHealth.maxHealth);
             enemyHealthBarRect.localScale = new Vector3(targetXScale, enemyHealthBarRect.localScale.y, enemyHealthBarRect.localScale.z);
         }
+
+        if (playerManaBarRect != null)
+        {
+            float targetXScale = Mathf.Clamp01((float)currentMana / maxMana);
+            playerManaBarRect.localScale = new Vector3(targetXScale, playerManaBarRect.localScale.y, playerManaBarRect.localScale.z);
+        }
     }
 
-    private IEnumerator AnimateHealthBar(RectTransform barRect, float currentHealth, float maxHealth)
+    private void SafeAnimateBar(RectTransform barRect, float currentValue, float maxValue)
     {
-        if (barRect == null) yield break;
+        if (barRect == null) return;
 
+        if (barAnimations.TryGetValue(barRect, out Coroutine activeAnimation))
+        {
+            if (activeAnimation != null)
+            {
+                StopCoroutine(activeAnimation);
+            }
+        }
+
+        barAnimations[barRect] = StartCoroutine(AnimateBar(barRect, currentValue, maxValue));
+    }
+
+    private IEnumerator AnimateBar(RectTransform barRect, float currentValue, float maxValue)
+    {
         Vector3 initialScale = barRect.localScale;
-        float targetXScale = Mathf.Clamp01(currentHealth / maxHealth);
+        float targetXScale = Mathf.Clamp01(currentValue / maxValue);
         Vector3 finalScale = new Vector3(targetXScale, initialScale.y, initialScale.z);
 
         float timer = 0f;
+        float duration = 0.5f;
 
-        while (timer < 0.5f)
+        while (timer < duration)
         {
             timer += Time.deltaTime;
-            float progress = timer / 0.5f;
+            float progress = timer / duration;
 
             barRect.localScale = Vector3.Lerp(initialScale, finalScale, progress);
-            
             yield return null;
         }
 
         barRect.localScale = finalScale;
+        
+        barAnimations[barRect] = null;
     }
 }

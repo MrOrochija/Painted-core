@@ -5,11 +5,9 @@ public enum FigureType { None, Line, Circle, Triangle, Square }
 
 public class EnemyFigure : MonoBehaviour
 {
-    [Header("References")]
     public GameObject battle;
     public GameObject player;
     
-    [Header("Settings")]
     [SerializeField] private FigureType enemyType;
 
     private BattleSystem battleSystem;
@@ -18,7 +16,9 @@ public class EnemyFigure : MonoBehaviour
     void Start()
     {
         if (battle != null)
+        {
             battleSystem = battle.GetComponent<BattleSystem>();
+        }
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         
@@ -30,7 +30,7 @@ public class EnemyFigure : MonoBehaviour
 
     private IEnumerator StartRoutine()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
         StartCoroutine(FlyToPlayer());
     }
 
@@ -54,6 +54,7 @@ public class EnemyFigure : MonoBehaviour
         if (enemyType == FigureType.Line && playerType == FigureType.Circle)
         {
             PlayerGetDamage(10);
+            RestoreMana(100);
             return;
         }
         if (enemyType == FigureType.Circle)
@@ -63,8 +64,8 @@ public class EnemyFigure : MonoBehaviour
         }
         if (enemyType == FigureType.Triangle)
         {
-            if (playerType == FigureType.Circle) { PlayerGetDamage(20); return; }
-            if (playerType == FigureType.Square) { PlayerGetDamage(10); return; }
+            if (playerType == FigureType.Circle) { PlayerGetDamage(20); RestoreMana(100); return; }
+            if (playerType == FigureType.Square) { PlayerGetDamage(10); RestoreMana(100); return; }
         }
         if (enemyType == FigureType.Square && playerType == FigureType.Triangle)
         {
@@ -109,6 +110,18 @@ public class EnemyFigure : MonoBehaviour
     private void EnemyGetDamage(int damage)
     {
         battleSystem?.EnemyGetDamage(damage);
+        Destroy(gameObject);
+    }
+
+    private void UseMana(int mana)
+    {
+        battleSystem?.UseMana(mana);
+        Destroy(gameObject);
+    }
+
+    private void RestoreMana(int mana)
+    {
+        battleSystem?.RestoreMana(mana);
         Destroy(gameObject);
     }
 

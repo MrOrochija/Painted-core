@@ -1250,7 +1250,7 @@ GameObject:
   - component: {fileID: 712082065}
   m_Layer: 0
   m_Name: EnemyFigure
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23520,6 +23520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleSystem
   player: {fileID: 37886737}
   figures: []
+  playerManaBarRect: {fileID: 1863481218}
   playerHealthBarRect: {fileID: 1693727426982946504}
   enemyHealthBarRect: {fileID: 2349411185628275258}
   zone: {fileID: 0}
@@ -23910,6 +23911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a15b54fadef84745965f65ca8b87320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FigureSpawner
+  spawnedCount: 0
 --- !u!1 &6710847089362617416
 GameObject:
   m_ObjectHideFlags: 0
