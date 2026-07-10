@@ -111,6 +111,17 @@ public class EnemyTrigger : MonoBehaviour
         yield return new WaitForSeconds(5f);
 
         inBattle = false;
+
+        Collider2D myCollider = GetComponent<Collider2D>();
+        if (myCollider != null)
+        {
+            Collider2D playerCollider = player.GetComponent<Collider2D>();
+            if (playerCollider != null && myCollider.IsTouching(playerCollider))
+            {
+                inBattle = true;
+                StartCoroutine(InteractRoutine());
+            }
+        }
     }
 
     public IEnumerator EnemyDead()

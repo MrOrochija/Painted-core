@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -80,14 +81,14 @@ public class SetCheckpoint : MonoBehaviour
     {
         if (playerHealth.UseMana(50))
         {
-            ToggleUI();
+            SetUI(false);
             StartCoroutine(playerMovement.DrawAnimation());
         }
     }
 
     void NoButtonClick()
     {
-        ToggleUI();
+        SetUI(false);
     }
 
     void Update()
@@ -96,14 +97,14 @@ public class SetCheckpoint : MonoBehaviour
 
         if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
         {
-            ToggleUI();
+            if (isOpen) SetUI(false); else SetUI(true);
         }
     }
 
-    private void ToggleUI()
+    private void SetUI(bool value)
     {
-        isOpen = !isOpen;
-        UI.enabled = isOpen;
+        isOpen = value;
+        UI.enabled = value;
     }
 
     public void Activate()
