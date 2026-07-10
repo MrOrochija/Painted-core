@@ -7,7 +7,8 @@ public class EnemyTrigger : MonoBehaviour
     public GameObject battle;
     public GameObject player;
     public Image fadeImage;
-    public GameObject zone;
+    private GameObject battleZone;
+    private GameObject zone;
 
     private BattleSystem battleSystem;
     private PlayerMovement plrMovement;
@@ -20,7 +21,21 @@ public class EnemyTrigger : MonoBehaviour
     {
         if (battle != null) battleSystem = battle.GetComponent<BattleSystem>();
         if (player != null) plrMovement = player.GetComponent<PlayerMovement>();
-    
+
+        Transform battleZoneTransform = battle.transform.Find("BattleZone");
+
+        if (battleZoneTransform != null)
+        {
+            battleZone = battleZoneTransform.gameObject;
+
+            Transform zoneTransform = battleZone.transform.Find("Zone");
+
+            if (zoneTransform != null)
+            {
+                zone = zoneTransform.gameObject;
+            }
+        }
+
         Transform enemyTransform = transform.parent;
 
         if (enemyTransform != null)
@@ -53,6 +68,7 @@ public class EnemyTrigger : MonoBehaviour
     private IEnumerator InteractRoutine()
     {
         plrMovement.canMove = false;
+        battleZone.SetActive(false);
 
         yield return StartCoroutine(Fade(1));
 

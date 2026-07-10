@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro; // Добавляем для работы с TextMeshPro. Если используешь старый Text, напиши using UnityEngine.UI;
 
 [System.Serializable]
 public class BattleFigure
@@ -28,6 +29,9 @@ public class BattleSystem : MonoBehaviour
     public RectTransform playerManaBarRect;
     public RectTransform playerHealthBarRect;
     public RectTransform enemyHealthBarRect;
+    
+    public TextMeshProUGUI playerHP; 
+    public TextMeshProUGUI enemyHP;
 
     private GameObject battleZone;
     [HideInInspector] public GameObject zone;
@@ -160,7 +164,7 @@ public class BattleSystem : MonoBehaviour
         if (playerHealth != null)
         {
             playerHealth.GetDamage(damage);
-            SafeAnimateBar(playerHealthBarRect, playerHealth.currentHealth, playerHealth.maxHealth);
+            SafeAnimateBar(playerHealthBarRect, playerHealth.currentHealth, playerHealth.maxHealth, playerHP);
 
             if (playerHealth.currentHealth <= 0)
             {
@@ -169,6 +173,12 @@ public class BattleSystem : MonoBehaviour
                 if (enemyTrigger != null)
                 {
                     StartCoroutine(enemyTrigger.PlayerDead()); 
+                    selectAction.Deactivate();
+                    selectFigure.Deactivate();
+                    figureSpawner.Deactivate();
+                    enemyHealth.HealMax();
+                    playerHealth.HealMax();
+                    playerHealth.UseManaMax();
                 }
             }
         }
@@ -179,7 +189,7 @@ public class BattleSystem : MonoBehaviour
         if (enemyHealth != null)
         {
             enemyHealth.GetDamage(damage);
-            SafeAnimateBar(enemyHealthBarRect, enemyHealth.currentHealth, enemyHealth.maxHealth);
+            SafeAnimateBar(enemyHealthBarRect, enemyHealth.currentHealth, enemyHealth.maxHealth, enemyHP);
 
             if (enemyHealth.currentHealth <= 0)
             {
@@ -198,7 +208,7 @@ public class BattleSystem : MonoBehaviour
         if (playerHealth != null)
         {
             playerHealth.Heal(healAmount); 
-            SafeAnimateBar(playerHealthBarRect, playerHealth.currentHealth, playerHealth.maxHealth);
+            SafeAnimateBar(playerHealthBarRect, playerHealth.currentHealth, playerHealth.maxHealth, playerHP);
         }
     }
 
@@ -207,7 +217,7 @@ public class BattleSystem : MonoBehaviour
         if (enemyHealth != null)
         {
             enemyHealth.Heal(healAmount);
-            SafeAnimateBar(enemyHealthBarRect, enemyHealth.currentHealth, enemyHealth.maxHealth);
+            SafeAnimateBar(enemyHealthBarRect, enemyHealth.currentHealth, enemyHealth.maxHealth, enemyHP);
         }
     }
 
@@ -216,7 +226,7 @@ public class BattleSystem : MonoBehaviour
         if (playerHealth.currentMana >= amount)
         {
             playerHealth.UseMana(amount);
-            SafeAnimateBar(playerManaBarRect, playerHealth.currentMana, playerHealth.maxMana);
+            SafeAnimateBar(playerManaBarRect, playerHealth.currentMana, playerHealth.maxMana, null);
             return true;
         }
         return false;
@@ -225,7 +235,7 @@ public class BattleSystem : MonoBehaviour
     public void RestoreMana(int amount)
     {
         playerHealth.RestoreMana(amount);
-        SafeAnimateBar(playerManaBarRect, playerHealth.currentMana, playerHealth.maxMana);
+        SafeAnimateBar(playerManaBarRect, playerHealth.currentMana, playerHealth.maxMana, null);
     }
 
     private void InitializeBars()
@@ -234,12 +244,14 @@ public class BattleSystem : MonoBehaviour
         {
             float targetXScale = Mathf.Clamp01((float)playerHealth.currentHealth / playerHealth.maxHealth);
             playerHealthBarRect.localScale = new Vector3(targetXScale, playerHealthBarRect.localScale.y, playerHealthBarRect.localScale.z);
+            if (playerHP != null) playerHP.text = $"{playerHealth.currentHealth}";
         }
 
         if (enemyHealth != null && enemyHealthBarRect != null)
         {
             float targetXScale = Mathf.Clamp01((float)enemyHealth.currentHealth / enemyHealth.maxHealth);
             enemyHealthBarRect.localScale = new Vector3(targetXScale, enemyHealthBarRect.localScale.y, enemyHealthBarRect.localScale.z);
+            if (enemyHP != null) enemyHP.text = $"{enemyHealth.currentHealth}";
         }
 
         if (playerManaBarRect != null)
@@ -249,7 +261,7 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    private void SafeAnimateBar(RectTransform barRect, float currentValue, float maxValue)
+    private void SafeAnimateBar(RectTransform barRect, float currentValue, float maxValue, TextMeshProUGUI textComponent = null)
     {
         if (barRect == null) return;
 
@@ -261,14 +273,16 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
-        barAnimations[barRect] = StartCoroutine(AnimateBar(barRect, currentValue, maxValue));
+        barAnimations[barRect] = StartCoroutine(AnimateBar(barRect, currentValue, maxValue, textComponent));
     }
 
-    private IEnumerator AnimateBar(RectTransform barRect, float currentValue, float maxValue)
+    private IEnumerator AnimateBar(RectTransform barRect, float currentValue, float maxValue, TextMeshProUGUI textComponent)
     {
         Vector3 initialScale = barRect.localScale;
         float targetXScale = Mathf.Clamp01(currentValue / maxValue);
         Vector3 finalScale = new Vector3(targetXScale, initialScale.y, initialScale.z);
+
+        float startHealthValue = initialScale.x * maxValue; 
 
         float timer = 0f;
         float duration = 0.5f;
@@ -279,10 +293,22 @@ public class BattleSystem : MonoBehaviour
             float progress = timer / duration;
 
             barRect.localScale = Vector3.Lerp(initialScale, finalScale, progress);
+            
+            if (textComponent != null)
+            {
+                int animatedHealth = Mathf.RoundToInt(Mathf.Lerp(startHealthValue, currentValue, progress));
+                textComponent.text = $"{animatedHealth}";
+            }
+
             yield return null;
         }
 
         barRect.localScale = finalScale;
+        
+        if (textComponent != null)
+        {
+            textComponent.text = $"{Mathf.RoundToInt(currentValue)}";
+        }
         
         barAnimations[barRect] = null;
     }
