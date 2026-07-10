@@ -16066,7 +16066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c61abda78ffb494487805d0a11790c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomTeleport
-  targetSceneName: SampleScene
+  targetSceneName: two_room
   targetSpawnPointName: FromPos
   fadeImage: {fileID: 1968029128}
 --- !u!212 &1189630836
