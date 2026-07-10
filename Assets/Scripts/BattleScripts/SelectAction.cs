@@ -85,11 +85,13 @@ public class SelectAction : MonoBehaviour
 
     public void Activate()
     {
+        slots.SetActive(true);
         active = true;
     }
 
     public void Deactivate()
     {
+        slots.SetActive(false);
         active = false;
     }
 }

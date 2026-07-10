@@ -4,8 +4,11 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [HideInInspector] public bool canMove = true;
-    private Animator anim;
+    
+    private float moveSpeed = 5f;
+    private float runSpeed = 10f;
 
+    private Animator anim;
     private string lastDirection = "down"; 
 
     void Start()
@@ -22,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector2 movementInput = Vector2.zero;
+        bool isRunning = false;
 
         if (Keyboard.current != null)
         {
@@ -35,6 +39,11 @@ public class PlayerMovement : MonoBehaviour
             if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) y += 1f;
 
             movementInput = new Vector2(x, y);
+
+            if (Keyboard.current.leftShiftKey.isPressed || Keyboard.current.rightShiftKey.isPressed)
+            {
+                isRunning = true;
+            }
         }
 
         if (movementInput.magnitude > 1f)
@@ -42,8 +51,10 @@ public class PlayerMovement : MonoBehaviour
             movementInput.Normalize();
         }
 
+        float currentSpeed = isRunning ? runSpeed : moveSpeed;
+
         Vector3 movement = new Vector3(movementInput.x, movementInput.y, 0);
-        transform.position += movement * 5f * Time.deltaTime;
+        transform.position += movement * currentSpeed * Time.deltaTime;
 
         bool isMoving = movementInput.magnitude > 0.01f;
         anim.SetBool("isMoving", isMoving);

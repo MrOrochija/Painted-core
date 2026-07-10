@@ -35,9 +35,6 @@ public class BattleSystem : MonoBehaviour
     private Camera mainCamera;
     private bool coolDown = false;
 
-    private int maxMana = 100;
-    private int currentMana = 0;
-
     private Dictionary<RectTransform, Coroutine> barAnimations = new Dictionary<RectTransform, Coroutine>();
 
     void Awake()
@@ -132,8 +129,6 @@ public class BattleSystem : MonoBehaviour
         if (script != null) enemyTrigger = script;
         if (script2 != null) enemyHealth = script2;
 
-        currentMana = 0;
-
         selectAction.Activate();
         InitializeBars();
     }
@@ -218,10 +213,10 @@ public class BattleSystem : MonoBehaviour
 
     public bool UseMana(int amount)
     {
-        if (currentMana >= amount)
+        if (playerHealth.currentMana >= amount)
         {
-            currentMana -= amount;
-            SafeAnimateBar(playerManaBarRect, currentMana, maxMana);
+            playerHealth.UseMana(amount);
+            SafeAnimateBar(playerManaBarRect, playerHealth.currentMana, playerHealth.maxMana);
             return true;
         }
         return false;
@@ -229,8 +224,8 @@ public class BattleSystem : MonoBehaviour
 
     public void RestoreMana(int amount)
     {
-        currentMana = Mathf.Clamp(currentMana + amount, 0, maxMana);
-        SafeAnimateBar(playerManaBarRect, currentMana, maxMana);
+        playerHealth.RestoreMana(amount);
+        SafeAnimateBar(playerManaBarRect, playerHealth.currentMana, playerHealth.maxMana);
     }
 
     private void InitializeBars()
@@ -249,7 +244,7 @@ public class BattleSystem : MonoBehaviour
 
         if (playerManaBarRect != null)
         {
-            float targetXScale = Mathf.Clamp01((float)currentMana / maxMana);
+            float targetXScale = Mathf.Clamp01((float)playerHealth.currentMana / playerHealth.maxMana);
             playerManaBarRect.localScale = new Vector3(targetXScale, playerManaBarRect.localScale.y, playerManaBarRect.localScale.z);
         }
     }
