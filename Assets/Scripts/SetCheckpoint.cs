@@ -16,6 +16,8 @@ public class SetCheckpoint : MonoBehaviour
 
     private GameObject currentCheckpoint;
 
+    private bool active = true;
+
     void Start()
     {
         playerMovement = player.GetComponent<PlayerMovement>();
@@ -90,7 +92,7 @@ public class SetCheckpoint : MonoBehaviour
 
     void Update()
     {
-        if (UI == null) return;
+        if (UI == null || !active) return;
 
         if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
         {
@@ -102,5 +104,16 @@ public class SetCheckpoint : MonoBehaviour
     {
         isOpen = !isOpen;
         UI.enabled = isOpen;
+    }
+
+    public void Activate()
+    {
+        active = true;
+    }
+
+    public void Deactivate()
+    {
+        active = false;
+        UI.enabled = false;
     }
 }

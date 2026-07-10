@@ -25177,6 +25177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleSystem
   player: {fileID: 37886737}
   figures: []
+  checkpointSystem: {fileID: 698288891}
   playerManaBarRect: {fileID: 1863481218}
   playerHealthBarRect: {fileID: 1693727426982946504}
   enemyHealthBarRect: {fileID: 2349411185628275258}

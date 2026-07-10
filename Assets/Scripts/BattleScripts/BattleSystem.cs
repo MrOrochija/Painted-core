@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro; // Добавляем для работы с TextMeshPro. Если используешь старый Text, напиши using UnityEngine.UI;
+using TMPro;
 
 [System.Serializable]
 public class BattleFigure
@@ -25,6 +25,8 @@ public class BattleSystem : MonoBehaviour
     private SelectAction selectAction;
     private SelectFigure selectFigure;
     private FigureSpawner figureSpawner;
+    public GameObject checkpointSystem;
+    private SetCheckpoint setCheckpoint;
 
     public RectTransform playerManaBarRect;
     public RectTransform playerHealthBarRect;
@@ -46,6 +48,7 @@ public class BattleSystem : MonoBehaviour
         figureSpawner = gameObject.GetComponent<FigureSpawner>();
         selectAction = gameObject.GetComponent<SelectAction>();
         selectFigure = gameObject.GetComponent<SelectFigure>();
+        setCheckpoint = checkpointSystem.GetComponent<SetCheckpoint>();
 
         figures = new BattleFigure[]
         {
@@ -133,6 +136,7 @@ public class BattleSystem : MonoBehaviour
         if (script != null) enemyTrigger = script;
         if (script2 != null) enemyHealth = script2;
 
+        setCheckpoint.Deactivate();
         selectAction.Activate();
         InitializeBars();
     }
@@ -154,6 +158,7 @@ public class BattleSystem : MonoBehaviour
                 if (randomInt == 0 && enemyTrigger != null)
                 {
                     StartCoroutine(enemyTrigger.RunAway());
+                    setCheckpoint.Activate();
                 }
                 break;
         }
@@ -179,6 +184,7 @@ public class BattleSystem : MonoBehaviour
                     enemyHealth.HealMax();
                     playerHealth.HealMax();
                     playerHealth.UseManaMax();
+                    setCheckpoint.Activate();
                 }
             }
         }
