@@ -7,11 +7,33 @@ public class SetCheckpoint : MonoBehaviour
     private Canvas UI;
     private bool isOpen = false;
 
+    public GameObject player;
+    private PlayerMovement playerMovement;
+    private PlayerHealth playerHealth;
+    private GameObject checkpoint;
     public Button yesButton;
     public Button noButton;
 
+    private GameObject currentCheckpoint;
+
     void Start()
     {
+        playerMovement = player.GetComponent<PlayerMovement>();
+        playerHealth = player.GetComponent<PlayerHealth>();
+        currentCheckpoint = playerHealth.currentCheckpoint;
+
+        if (playerMovement != null)
+        {
+            playerMovement.OnDrawAnimationFinished += HandleDrawAnimationFinished;
+        }
+
+        Transform checkpointTransform = transform.Find("Checkpoint");
+
+        if (checkpointTransform != null)
+        {
+            checkpoint = checkpointTransform.gameObject;
+        }
+
         Transform canvasTransform = transform.Find("UI");
         if (canvasTransform != null)
         {
@@ -29,9 +51,36 @@ public class SetCheckpoint : MonoBehaviour
         }
     }
 
+    void OnDestroy()
+    {
+        if (playerMovement != null)
+        {
+            playerMovement.OnDrawAnimationFinished -= HandleDrawAnimationFinished;
+        }
+    }
+
+    void HandleDrawAnimationFinished()
+    {
+        if (checkpoint != null && player != null)
+        {
+            Vector3 spawnPosition = player.transform.position - new Vector3(-0.74f, 0.05f, 0f);
+
+            GameObject spawnedCheckpoint = Instantiate(checkpoint, spawnPosition, checkpoint.transform.rotation);
+
+            Destroy(currentCheckpoint);
+            spawnedCheckpoint.SetActive(true);
+            currentCheckpoint = spawnedCheckpoint;
+            playerHealth.currentCheckpoint = spawnedCheckpoint;
+        }
+    }
+
     void YesButtonClick()
     {
-        ToggleUI();
+        if (playerHealth.UseMana(50))
+        {
+            ToggleUI();
+            StartCoroutine(playerMovement.DrawAnimation());
+        }
     }
 
     void NoButtonClick()

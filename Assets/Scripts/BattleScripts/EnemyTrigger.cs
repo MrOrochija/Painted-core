@@ -12,6 +12,7 @@ public class EnemyTrigger : MonoBehaviour
 
     private BattleSystem battleSystem;
     private PlayerMovement plrMovement;
+    private PlayerHealth playerHealth;
     private GameObject enemy;
     private bool inBattle = false;
 
@@ -20,7 +21,12 @@ public class EnemyTrigger : MonoBehaviour
     void Start()
     {
         if (battle != null) battleSystem = battle.GetComponent<BattleSystem>();
-        if (player != null) plrMovement = player.GetComponent<PlayerMovement>();
+        if (player != null)
+        {
+            plrMovement = player.GetComponent<PlayerMovement>();
+            playerHealth = player.GetComponent<PlayerHealth>();
+        }
+        
 
         Transform battleZoneTransform = battle.transform.Find("BattleZone");
 
@@ -126,7 +132,7 @@ public class EnemyTrigger : MonoBehaviour
     {
         yield return StartCoroutine(Fade(1));
 
-        player.transform.position = enemy.transform.position;
+        player.transform.position = playerHealth.currentCheckpoint.transform.position;
 
         yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(Fade(0));

@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int currentHealth { get; private set; } = 125;
-    public int maxHealth { get; private set; } = 125;
+    public int currentHealth { get; private set; } = 100;
+    public int maxHealth { get; private set; } = 100;
 
     public void GetDamage(int damage)
     {

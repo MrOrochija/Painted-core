@@ -26,9 +26,16 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    public void UseMana(int amount)
+    public bool UseMana(int amount)
     {
+        if ((currentMana - amount) < 0)
+        {
+            return false;
+        }
+
         currentMana -= amount;
+
+        return true;
     }
 
     public void RestoreMana(int amount)

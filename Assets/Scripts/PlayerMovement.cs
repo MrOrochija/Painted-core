@@ -1,12 +1,13 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     [HideInInspector] public bool canMove = true;
-    
-    private float moveSpeed = 5f;
-    private float runSpeed = 10f;
+
+    public event Action OnDrawAnimationFinished;
 
     private Animator anim;
     private string lastDirection = "down"; 
@@ -21,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
         if (!canMove)
         {
             anim.SetBool("isMoving", false);
-            return;
+            return; 
         }
 
         Vector2 movementInput = Vector2.zero;
@@ -51,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
             movementInput.Normalize();
         }
 
-        float currentSpeed = isRunning ? runSpeed : moveSpeed;
+        float currentSpeed = isRunning ? 10f : 5f;
 
         Vector3 movement = new Vector3(movementInput.x, movementInput.y, 0);
         transform.position += movement * currentSpeed * Time.deltaTime;
@@ -64,6 +65,23 @@ public class PlayerMovement : MonoBehaviour
             DetermineLastPressedKey(movementInput);
             SetAnimation();
         }
+    }
+
+    public IEnumerator DrawAnimation()
+    {
+        canMove = false;
+        anim.SetBool("isDraw", true);
+
+        yield return new WaitForSeconds(0.1f); 
+
+        float animationLength = anim.GetCurrentAnimatorStateInfo(0).length;
+
+        yield return new WaitForSeconds(animationLength - 0.1f);
+
+        anim.SetBool("isDraw", false);
+        canMove = true;
+
+        OnDrawAnimationFinished?.Invoke(); 
     }
 
     void DetermineLastPressedKey(Vector2 moveInput)
