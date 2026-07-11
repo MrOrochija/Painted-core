@@ -154,11 +154,19 @@ public class BattleSystem : MonoBehaviour
             case 2:
                 break;
             case 3:
-                int randomInt = Random.Range(0, 2);
-                if (randomInt == 0 && enemyTrigger != null)
+                float randomValue = Random.value; 
+
+                if (randomValue <= 0.35f)
                 {
                     StartCoroutine(enemyTrigger.RunAway());
                     setCheckpoint.Activate();
+                } else
+                {
+                    PlayerGetDamage(20);
+                    selectAction.Deactivate();
+                    battleZone.SetActive(true);
+                    selectFigure.Activate();
+                    figureSpawner.Activate();
                 }
                 break;
         }
