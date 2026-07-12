@@ -1,14 +1,12 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using UnityEngine.SceneManagement; 
 
 public class RoomTeleport : MonoBehaviour
 {
     public string targetSceneName; 
-    
     public string targetSpawnPointName;
-
     public Image fadeImage;
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -24,7 +22,10 @@ public class RoomTeleport : MonoBehaviour
         if (!string.IsNullOrEmpty(targetSceneName))
         {
             PlayerMovement movement = player.GetComponent<PlayerMovement>();
-            if (movement != null) movement.canMove = false;
+            if (movement != null) 
+            {
+                movement.currentState = PlayerState.Frozen;
+            }
 
             yield return StartCoroutine(Fade(1));
             

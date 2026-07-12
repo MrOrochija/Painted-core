@@ -3,9 +3,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum PlayerState { Free, Combat, Frozen }
+
 public class PlayerMovement : MonoBehaviour
 {
-    [HideInInspector] public bool canMove = true;
+    [Header("State Settings")]
+    public PlayerState currentState = PlayerState.Free;
 
     public event Action OnDrawAnimationFinished;
 
@@ -19,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (!canMove)
+        if (currentState != PlayerState.Free)
         {
             anim.SetBool("isMoving", false);
             return; 
@@ -35,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
 
             if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) x -= 1f;
             if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) x += 1f;
-
             if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) y -= 1f;
             if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) y += 1f;
 
@@ -69,17 +71,17 @@ public class PlayerMovement : MonoBehaviour
 
     public IEnumerator DrawAnimation()
     {
-        canMove = false;
+        currentState = PlayerState.Frozen; 
         anim.SetBool("isDraw", true);
 
         yield return new WaitForSeconds(0.1f); 
 
         float animationLength = anim.GetCurrentAnimatorStateInfo(0).length;
-
         yield return new WaitForSeconds(animationLength - 0.1f);
 
         anim.SetBool("isDraw", false);
-        canMove = true;
+        
+        currentState = PlayerState.Free; 
 
         OnDrawAnimationFinished?.Invoke(); 
     }

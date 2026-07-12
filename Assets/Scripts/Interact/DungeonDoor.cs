@@ -33,7 +33,9 @@ public class DungeonDoor : InteractableObject
         if (!coolDown)
         {
             coolDown = true;
-            playerMovement.canMove = false;
+            
+            playerMovement.currentState = PlayerState.Frozen;
+            
             StartCoroutine(InteractRoutine());
         }
     }
@@ -45,7 +47,6 @@ public class DungeonDoor : InteractableObject
             targetScript.coolDown = true;
         }
         
-
         if (anim != null)
         {
             anim.SetBool("isOpen", true);
@@ -68,8 +69,12 @@ public class DungeonDoor : InteractableObject
 
         if (fadeImage != null)
         {
-            playerMovement.canMove = true;
             yield return StartCoroutine(Fade(0));
+        }
+
+        if (playerMovement.currentState != PlayerState.Combat)
+        {
+            playerMovement.currentState = PlayerState.Free;
         }
 
         if (anim != null) anim.SetBool("isOpen", false);
@@ -81,7 +86,6 @@ public class DungeonDoor : InteractableObject
             coolDown = false;
             targetScript.coolDown = false;
         }
-        
     }
 
     private IEnumerator Fade(float targetAlpha)

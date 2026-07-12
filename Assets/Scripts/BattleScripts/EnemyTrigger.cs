@@ -27,13 +27,11 @@ public class EnemyTrigger : MonoBehaviour
             playerHealth = player.GetComponent<PlayerHealth>();
         }
         
-
         Transform battleZoneTransform = battle.transform.Find("BattleZone");
 
         if (battleZoneTransform != null)
         {
             battleZone = battleZoneTransform.gameObject;
-
             Transform zoneTransform = battleZone.transform.Find("Zone");
 
             if (zoneTransform != null)
@@ -43,11 +41,9 @@ public class EnemyTrigger : MonoBehaviour
         }
 
         Transform enemyTransform = transform.parent;
-
         if (enemyTransform != null)
         {
             enemy = enemyTransform.gameObject;
-
             enemySpriteRenderer = enemy.GetComponent<SpriteRenderer>();
         }
     }
@@ -73,7 +69,8 @@ public class EnemyTrigger : MonoBehaviour
 
     private IEnumerator InteractRoutine()
     {
-        plrMovement.canMove = false;
+        plrMovement.currentState = PlayerState.Combat; 
+        
         battleZone.SetActive(false);
 
         yield return StartCoroutine(Fade(1));
@@ -84,15 +81,12 @@ public class EnemyTrigger : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.5f);
-
         yield return StartCoroutine(Fade(0));
 
         Transform enemyTransform = transform.parent;
-
         if (enemyTransform != null)
         {
             EnemyHealth enemyHealth = enemyTransform.GetComponent<EnemyHealth>();
-
             battleSystem.StartBattle(this, enemyHealth);
         }
     }
@@ -100,16 +94,13 @@ public class EnemyTrigger : MonoBehaviour
     public IEnumerator RunAway()
     {
         yield return StartCoroutine(Fade(1));
-
         player.transform.position = enemy.transform.position;
-
         yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(Fade(0));
 
-        plrMovement.canMove = true;
+        plrMovement.currentState = PlayerState.Free;
 
         yield return new WaitForSeconds(5f);
-
         inBattle = false;
 
         Collider2D myCollider = GetComponent<Collider2D>();
@@ -127,14 +118,12 @@ public class EnemyTrigger : MonoBehaviour
     public IEnumerator EnemyDead()
     {
         yield return StartCoroutine(Fade(1));
-
         player.transform.position = enemy.transform.position;
         SetEnemyAlpha(0);
-
         yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(Fade(0));
 
-        plrMovement.canMove = true;
+        plrMovement.currentState = PlayerState.Free;
 
         Destroy(enemy);
     }
@@ -142,16 +131,13 @@ public class EnemyTrigger : MonoBehaviour
     public IEnumerator PlayerDead()
     {
         yield return StartCoroutine(Fade(1));
-
         player.transform.position = playerHealth.currentCheckpoint.transform.position;
-
         yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(Fade(0));
 
-        plrMovement.canMove = true;
+        plrMovement.currentState = PlayerState.Free;
 
         yield return new WaitForSeconds(5f);
-
         inBattle = false;
     }
 

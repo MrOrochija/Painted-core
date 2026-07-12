@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -6,7 +5,6 @@ using UnityEngine.UI;
 public class SetCheckpoint : MonoBehaviour
 {
     private Canvas UI;
-    private bool isOpen = false;
 
     public GameObject player;
     private PlayerMovement playerMovement;
@@ -16,7 +14,6 @@ public class SetCheckpoint : MonoBehaviour
     public Button noButton;
 
     private GameObject currentCheckpoint;
-
     private bool active = true;
 
     void Start()
@@ -31,7 +28,6 @@ public class SetCheckpoint : MonoBehaviour
         }
 
         Transform checkpointTransform = transform.Find("Checkpoint");
-
         if (checkpointTransform != null)
         {
             checkpoint = checkpointTransform.gameObject;
@@ -41,17 +37,10 @@ public class SetCheckpoint : MonoBehaviour
         if (canvasTransform != null)
         {
             UI = canvasTransform.GetComponent<Canvas>();
-            UI.enabled = isOpen;
         }
 
-        if (yesButton != null)
-        {
-            yesButton.onClick.AddListener(YesButtonClick);
-        }
-        if (noButton != null)
-        {
-            noButton.onClick.AddListener(NoButtonClick);
-        }
+        if (yesButton != null) yesButton.onClick.AddListener(YesButtonClick);
+        if (noButton != null) noButton.onClick.AddListener(NoButtonClick);
     }
 
     void OnDestroy()
@@ -67,7 +56,6 @@ public class SetCheckpoint : MonoBehaviour
         if (checkpoint != null && player != null)
         {
             Vector3 spawnPosition = player.transform.position - new Vector3(-0.74f, 0.05f, 0f);
-
             GameObject spawnedCheckpoint = Instantiate(checkpoint, spawnPosition, checkpoint.transform.rotation);
 
             Destroy(currentCheckpoint);
@@ -81,14 +69,14 @@ public class SetCheckpoint : MonoBehaviour
     {
         if (playerHealth.UseMana(50))
         {
-            SetUI(false);
+            UISet(false);
             StartCoroutine(playerMovement.DrawAnimation());
         }
     }
 
     void NoButtonClick()
     {
-        SetUI(false);
+        UISet(false);
     }
 
     void Update()
@@ -97,14 +85,33 @@ public class SetCheckpoint : MonoBehaviour
 
         if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
         {
-            if (isOpen) SetUI(false); else SetUI(true);
+            UI.enabled = !UI.enabled;
+            
+            if (UI.enabled)
+            {
+                playerMovement.currentState = PlayerState.Frozen;
+            }
+            else
+            {
+                if (playerMovement.currentState != PlayerState.Combat)
+                    playerMovement.currentState = PlayerState.Free;
+            }
         }
     }
 
-    private void SetUI(bool value)
+    private void UISet(bool value)
     {
-        isOpen = value;
         UI.enabled = value;
+        
+        if (value)
+        {
+            playerMovement.currentState = PlayerState.Frozen;
+        }
+        else
+        {
+            if (playerMovement.currentState != PlayerState.Combat)
+                playerMovement.currentState = PlayerState.Free;
+        }
     }
 
     public void Activate()
@@ -116,5 +123,8 @@ public class SetCheckpoint : MonoBehaviour
     {
         active = false;
         UI.enabled = false;
+        
+        if (playerMovement.currentState != PlayerState.Combat)
+            playerMovement.currentState = PlayerState.Free;
     }
 }

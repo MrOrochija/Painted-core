@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
 public class BattleFigure
@@ -16,6 +17,7 @@ public class BattleSystem : MonoBehaviour
 {
     public GameObject player;
     private PlayerHealth playerHealth;
+    private PlayerMovement playerMovement;
     private LayerMask zoneLayerMask;
 
     [HideInInspector] public BattleFigure[] figures;
@@ -27,6 +29,10 @@ public class BattleSystem : MonoBehaviour
     private FigureSpawner figureSpawner;
     public GameObject checkpointSystem;
     private SetCheckpoint setCheckpoint;
+    public GameObject invSystem;
+    private Canvas UI;
+    private Canvas dialogue;
+    private InventorySystem inventorySystem;
 
     public RectTransform playerManaBarRect;
     public RectTransform playerHealthBarRect;
@@ -49,6 +55,7 @@ public class BattleSystem : MonoBehaviour
         selectAction = gameObject.GetComponent<SelectAction>();
         selectFigure = gameObject.GetComponent<SelectFigure>();
         setCheckpoint = checkpointSystem.GetComponent<SetCheckpoint>();
+        inventorySystem = invSystem.GetComponent<InventorySystem>();
 
         figures = new BattleFigure[]
         {
@@ -63,6 +70,7 @@ public class BattleSystem : MonoBehaviour
         if (player != null)
         {
             playerHealth = player.GetComponent<PlayerHealth>();
+            playerMovement = player.GetComponent<PlayerMovement>();
         }
 
         Transform battleZoneTransform = transform.Find("BattleZone");
@@ -76,6 +84,18 @@ public class BattleSystem : MonoBehaviour
                 zone = zoneTransform.gameObject;
             }
         }
+
+        Transform UITransform = invSystem.transform.Find("UI");
+        if (UITransform != null)
+        {
+            UI = UITransform.GetComponent<Canvas>();
+        }
+
+        Transform dialogueTransform = invSystem.transform.Find("Dialogue");
+        if (dialogueTransform != null)
+        {
+            dialogue = dialogueTransform.GetComponent<Canvas>();
+        }
     }
 
     void Start()
@@ -88,6 +108,19 @@ public class BattleSystem : MonoBehaviour
     {
         if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame)
         {
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) 
+            {
+                PointerEventData pointerData = new PointerEventData(EventSystem.current)
+                {
+                    position = Pointer.current.position.ReadValue()
+                };
+                
+                List<RaycastResult> results = new List<RaycastResult>();
+                EventSystem.current.RaycastAll(pointerData, results);
+
+                if (results.Count > 0 && results[0].gameObject != zone) return;
+            }
+
             DetectZoneClick();
         }
     }
@@ -136,6 +169,9 @@ public class BattleSystem : MonoBehaviour
         if (script != null) enemyTrigger = script;
         if (script2 != null) enemyHealth = script2;
 
+        if (dialogue != null) dialogue.enabled = false;
+
+        inventorySystem.Deactivate();
         setCheckpoint.Deactivate();
         selectAction.Activate();
         InitializeBars();
@@ -146,22 +182,32 @@ public class BattleSystem : MonoBehaviour
         switch (action)
         {
             case 1:
+                UI.enabled = false;
+                dialogue.enabled = false;
                 selectAction.Deactivate();
                 battleZone.SetActive(true);
                 selectFigure.Activate();
                 figureSpawner.Activate();
                 break;
             case 2:
+                UI.enabled = !UI.enabled;
                 break;
             case 3:
                 float randomValue = Random.value; 
 
                 if (randomValue <= 0.35f)
                 {
+                    UI.enabled = false;
+                    dialogue.enabled = false;
                     StartCoroutine(enemyTrigger.RunAway());
                     setCheckpoint.Activate();
+                    inventorySystem.Activate();
+                    
+                    if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
                 } else
                 {
+                    UI.enabled = false;
+                    dialogue.enabled = false;
                     PlayerGetDamage(20);
                     selectAction.Deactivate();
                     battleZone.SetActive(true);
@@ -193,6 +239,9 @@ public class BattleSystem : MonoBehaviour
                     playerHealth.HealMax();
                     playerHealth.UseManaMax();
                     setCheckpoint.Activate();
+                    inventorySystem.Activate();
+
+                    if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
                 }
             }
         }
@@ -212,6 +261,11 @@ public class BattleSystem : MonoBehaviour
                 if (enemyTrigger != null)
                 {
                     StartCoroutine(enemyTrigger.EnemyDead());
+
+                    setCheckpoint.Activate();
+                    inventorySystem.Activate();
+
+                    if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
                 }
             }
         }
