@@ -7,13 +7,14 @@ public enum PlayerState { Free, Combat, Frozen }
 
 public class PlayerMovement : Sounds
 {
-    [Header("State Settings")]
     public PlayerState currentState = PlayerState.Free;
 
     public event Action OnDrawAnimationFinished;
 
     private Animator anim;
     private string lastDirection = "down"; 
+
+    private float stepTimer = 0f;
 
     void Start()
     {
@@ -25,6 +26,7 @@ public class PlayerMovement : Sounds
         if (currentState != PlayerState.Free)
         {
             anim.SetBool("isMoving", false);
+            HandleStepSound(false, false, false);
             return; 
         }
 
@@ -62,10 +64,44 @@ public class PlayerMovement : Sounds
         bool isMoving = movementInput.magnitude > 0.01f;
         anim.SetBool("isMoving", isMoving);
 
+        string oldDirection = lastDirection;
+
         if (isMoving)
         {
             DetermineLastPressedKey(movementInput);
             SetAnimation();
+        }
+
+        bool directionChanged = isMoving && (lastDirection != oldDirection);
+
+        HandleStepSound(isMoving, isRunning, directionChanged);
+    }
+
+    private void HandleStepSound(bool shouldPlay, bool isRunning, bool directionChanged)
+    {
+        if (shouldPlay)
+        {
+            if (directionChanged)
+            {
+                StopSound(); 
+                stepTimer = 0f; 
+            }
+
+            stepTimer -= Time.deltaTime;
+
+            if (stepTimer <= 0f)
+            {
+                PlaySound(isRunning ? sounds[1] : sounds[0]); 
+                stepTimer = isRunning ? 0.718f : 1.067f; 
+            }
+        }
+        else
+        {
+            if (stepTimer > 0f)
+            {
+                StopSound();
+            }
+            stepTimer = 0f;
         }
     }
 
@@ -91,12 +127,12 @@ public class PlayerMovement : Sounds
         if (Mathf.Abs(moveInput.x) > Mathf.Abs(moveInput.y))
         {
             if (moveInput.x > 0) lastDirection = "right";
-            else if (moveInput.x < 0) lastDirection = "left";
+            if (moveInput.x < 0) lastDirection = "left";
         }
         else
         {
             if (moveInput.y > 0) lastDirection = "up";
-            else if (moveInput.y < 0) lastDirection = "down";
+            if (moveInput.y < 0) lastDirection = "down";
         }
     }
 
