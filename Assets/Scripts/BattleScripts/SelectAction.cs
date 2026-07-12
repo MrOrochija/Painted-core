@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
-public class SelectAction : MonoBehaviour
+public class SelectAction : Sounds
 {
     public Sprite slotSelect;
     public Sprite slotNotSelect;
@@ -47,6 +47,7 @@ public class SelectAction : MonoBehaviour
                 if (currentSelection < 3) 
                 {
                     currentSelection++;
+                    PlaySound(sounds[0]);
                     UpdateSlots();
                 }
             }
@@ -57,12 +58,14 @@ public class SelectAction : MonoBehaviour
                 if (currentSelection > 1) 
                 {
                     currentSelection--;
+                    PlaySound(sounds[0]);
                     UpdateSlots();
                 }
             }
 
             if (Keyboard.current.enterKey.wasPressedThisFrame)
             {
+                PlaySound(sounds[1]);
                 battleSystem.SelectAction(currentSelection);
             }
         }

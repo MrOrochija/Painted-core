@@ -14,7 +14,7 @@ public class BattleFigure
     public int manaCost;
 }
 
-public class BattleSystem : MonoBehaviour
+public class BattleSystem : Sounds
 {
     public GameObject player;
     private PlayerHealth playerHealth;
@@ -153,7 +153,8 @@ public class BattleSystem : MonoBehaviour
                     return;
                 }
             }
-
+            
+            PlaySound(sounds[index]);
             figureSpawner.SpawnFigure(selectedFigure.sprite, mouseWorldPosition, "Player");
         }
 
