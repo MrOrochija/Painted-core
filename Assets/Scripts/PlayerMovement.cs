@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public enum PlayerState { Free, Combat, Frozen }
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Sounds
 {
     [Header("State Settings")]
     public PlayerState currentState = PlayerState.Free;
