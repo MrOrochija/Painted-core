@@ -36,6 +36,8 @@ public class InventorySystem : MonoBehaviour
 
     public GameObject dialogueObject;
     private Dialogue dialogue;
+    public GameObject setCheckpointSystem;
+    private SetCheckpoint setCheckpoint;
 
     public GameObject button; 
     private Image image;
@@ -46,6 +48,7 @@ public class InventorySystem : MonoBehaviour
     void Start()
     {
         dialogue = dialogueObject.GetComponent<Dialogue>();
+        setCheckpoint = setCheckpointSystem.GetComponent<SetCheckpoint>();
         playerMovement = player.GetComponent<PlayerMovement>();
 
         Transform UITransform = transform.Find("UI");
@@ -92,15 +95,25 @@ public class InventorySystem : MonoBehaviour
     public void ToggleInventory()
     {
         UI.enabled = !UI.enabled;
-    
+
         if (UI.enabled)
         {
             playerMovement.currentState = PlayerState.Frozen;
+
+            if (setCheckpoint != null)
+            {
+                setCheckpoint.Deactivate();
+            }
         } else
         {
             if (playerMovement.currentState != PlayerState.Combat)
             {
                 playerMovement.currentState = PlayerState.Free;
+            }
+
+            if (setCheckpoint != null)
+        {
+                setCheckpoint.Activate();
             }
         }
     }

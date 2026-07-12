@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,6 +34,7 @@ public class BattleSystem : MonoBehaviour
     private Canvas UI;
     private Canvas dialogue;
     private InventorySystem inventorySystem;
+    public Image fadeImage;
 
     public RectTransform playerManaBarRect;
     public RectTransform playerHealthBarRect;
@@ -231,7 +233,7 @@ public class BattleSystem : MonoBehaviour
 
                 if (enemyTrigger != null)
                 {
-                    StartCoroutine(enemyTrigger.PlayerDead()); 
+                    StartCoroutine(enemyTrigger.PlayerDead());
                     selectAction.Deactivate();
                     selectFigure.Deactivate();
                     figureSpawner.Deactivate();
@@ -242,8 +244,40 @@ public class BattleSystem : MonoBehaviour
                     inventorySystem.Activate();
 
                     if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
+                } else
+                {
+                    playerHealth.HealMax();
+                    StartCoroutine(playerDead());
                 }
             }
+        }
+    }
+
+    private IEnumerator playerDead()
+    {
+        yield return StartCoroutine(Fade(1));
+        player.transform.position = playerHealth.currentCheckpoint.transform.position;
+        yield return new WaitForSeconds(0.5f);
+        yield return StartCoroutine(Fade(0));
+
+        playerMovement.currentState = PlayerState.Free;
+
+        yield return new WaitForSeconds(5f);
+        playerHealth.HealMax();
+    }
+
+    private IEnumerator Fade(float targetAlpha)
+    {
+        float speed = 1f / 0.1f;
+        float currentAlpha = fadeImage.color.a;
+
+        while (!Mathf.Approximately(currentAlpha, targetAlpha))
+        {
+            currentAlpha = Mathf.MoveTowards(currentAlpha, targetAlpha, speed * Time.deltaTime);
+            Color c = fadeImage.color;
+            c.a = currentAlpha;
+            fadeImage.color = c;
+            yield return null;
         }
     }
 

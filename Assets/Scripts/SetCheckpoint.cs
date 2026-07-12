@@ -10,6 +10,8 @@ public class SetCheckpoint : MonoBehaviour
     private PlayerMovement playerMovement;
     private PlayerHealth playerHealth;
     private GameObject checkpoint;
+    public GameObject invSystem;
+    private InventorySystem inventorySystem;
     public Button yesButton;
     public Button noButton;
 
@@ -20,6 +22,7 @@ public class SetCheckpoint : MonoBehaviour
     {
         playerMovement = player.GetComponent<PlayerMovement>();
         playerHealth = player.GetComponent<PlayerHealth>();
+        inventorySystem = invSystem.GetComponent<InventorySystem>();
         currentCheckpoint = playerHealth.currentCheckpoint;
 
         if (playerMovement != null)
@@ -85,17 +88,7 @@ public class SetCheckpoint : MonoBehaviour
 
         if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
         {
-            UI.enabled = !UI.enabled;
-            
-            if (UI.enabled)
-            {
-                playerMovement.currentState = PlayerState.Frozen;
-            }
-            else
-            {
-                if (playerMovement.currentState != PlayerState.Combat)
-                    playerMovement.currentState = PlayerState.Free;
-            }
+            UISet(!UI.enabled);
         }
     }
 
@@ -106,11 +99,21 @@ public class SetCheckpoint : MonoBehaviour
         if (value)
         {
             playerMovement.currentState = PlayerState.Frozen;
+
+            if (inventorySystem != null)
+            {
+                inventorySystem.Deactivate();
+            }
         }
         else
         {
             if (playerMovement.currentState != PlayerState.Combat)
                 playerMovement.currentState = PlayerState.Free;
+
+            if (inventorySystem != null)
+            {
+                inventorySystem.Activate();
+            }
         }
     }
 
