@@ -169,6 +169,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: dungeon-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03111e7fe32f25f4b8b393e6043c680a
+      internalID: 631982233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -187,6 +209,7 @@ TextureImporter:
     nameFileIdTable:
       dungeon-sheet_0: 7731038497377567945
       dungeon-sheet_1: 1202257363
+      dungeon-sheet_2: 631982233
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
