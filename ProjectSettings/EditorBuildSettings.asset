@@ -32,5 +32,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/dungeon_eight_room.unity
     guid: 992abbf6315c77c44af5ce2429893d63
+  - enabled: 1
+    path: Assets/Scenes/dungeon_nine_room.unity
+    guid: 2d167d49e780d0845b1c4bf02a4ef68d
+  - enabled: 1
+    path: Assets/Scenes/dungeon_ten_Room.unity
+    guid: a79df0af1027619428ab0dfd31b073fa
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
