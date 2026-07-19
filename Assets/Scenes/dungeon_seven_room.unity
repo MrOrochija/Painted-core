@@ -11510,7 +11510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomTeleport
   targetSceneName: dungeon_eight_room
-  targetSpawnPointName: FromPos
+  targetSpawnPointName: ToPos
   fadeImage: {fileID: 857728238}
 --- !u!212 &851885476
 SpriteRenderer:
@@ -21846,7 +21846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomTeleport
   targetSceneName: dungeon_six_room
-  targetSpawnPointName: FromPos
+  targetSpawnPointName: ToPos (1)
   fadeImage: {fileID: 857728238}
 --- !u!212 &1504687113
 SpriteRenderer:
@@ -22023,7 +22023,7 @@ Transform:
   m_GameObject: {fileID: 1632353131}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.53, y: -8.71, z: 0}
+  m_LocalPosition: {x: 4.53, y: -4.4, z: 0}
   m_LocalScale: {x: 1.52, y: 1.45, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

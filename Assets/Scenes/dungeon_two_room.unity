@@ -8978,7 +8978,7 @@ GameObject:
   - component: {fileID: 1225496415}
   - component: {fileID: 1225496414}
   m_Layer: 0
-  m_Name: ToPos
+  m_Name: ToPos (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9066,7 +9066,7 @@ Transform:
   m_GameObject: {fileID: 1225496413}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.81, y: -2.55, z: 0}
+  m_LocalPosition: {x: -7.76, y: -2.55, z: 0}
   m_LocalScale: {x: 1.52, y: 1.45, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9345,7 +9345,7 @@ GameObject:
   - component: {fileID: 1485108596}
   - component: {fileID: 1485108595}
   m_Layer: 0
-  m_Name: ToTrigger
+  m_Name: ToTrigger (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9410,7 +9410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomTeleport
   targetSceneName: dungeon_three_room
-  targetSpawnPointName: FromPos
+  targetSpawnPointName: ToPos (1)
   fadeImage: {fileID: 1798254651}
 --- !u!212 &1485108597
 SpriteRenderer:
@@ -24593,7 +24593,7 @@ Transform:
   m_GameObject: {fileID: 1921748269}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.18, y: 1.82, z: 0}
+  m_LocalPosition: {x: 8.58, y: 1.82, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -25052,7 +25052,7 @@ GameObject:
   - component: {fileID: 1980947780}
   - component: {fileID: 1980947779}
   m_Layer: 0
-  m_Name: ToTrigger (1)
+  m_Name: ToTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25117,7 +25117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomTeleport
   targetSceneName: dungeon_first_room
-  targetSpawnPointName: FromPos
+  targetSpawnPointName: ToPos
   fadeImage: {fileID: 1798254651}
 --- !u!212 &1980947781
 SpriteRenderer:
@@ -25345,7 +25345,7 @@ GameObject:
   - component: {fileID: 2097398989}
   - component: {fileID: 2097398988}
   m_Layer: 0
-  m_Name: ToPos (1)
+  m_Name: ToPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25433,8 +25433,8 @@ Transform:
   m_GameObject: {fileID: 2097398987}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.77, y: -0.6, z: 0}
-  m_LocalScale: {x: 2.0628748, y: 7.3608446, z: 1}
+  m_LocalPosition: {x: 8.5, y: 1.46, z: 0}
+  m_LocalScale: {x: 2.0628748, y: 2.0647168, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

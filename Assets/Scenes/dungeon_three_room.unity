@@ -4522,8 +4522,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c61abda78ffb494487805d0a11790c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FromRoom
-  targetSceneName: dungeon_two_room
-  targetSpawnPointName: ToPos
+  targetSceneName: dungeon_four_room
+  targetSpawnPointName: FromPos (1)
   fadeImage: {fileID: 1786259295}
 --- !u!61 &702274971
 BoxCollider2D:
@@ -7293,7 +7293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FromRoom
   targetSceneName: dungeon_two_room
-  targetSpawnPointName: ToPos
+  targetSpawnPointName: FromPos
   fadeImage: {fileID: 1786259295}
 --- !u!61 &1301910727
 BoxCollider2D:

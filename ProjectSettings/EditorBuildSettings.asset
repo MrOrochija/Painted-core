@@ -38,5 +38,26 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/dungeon_ten_Room.unity
     guid: a79df0af1027619428ab0dfd31b073fa
+  - enabled: 1
+    path: Assets/Scenes/dungeon_elelen_Room.unity
+    guid: c0ee6aa81dd8620438085ac8f25b372f
+  - enabled: 1
+    path: Assets/Scenes/dungeon_twelve_room.unity
+    guid: 08c788ae79b3a5a40bf5d9c41477845b
+  - enabled: 1
+    path: Assets/Scenes/dungeon_13_room.unity
+    guid: 9710592e09df1bd4e857294b5d709245
+  - enabled: 1
+    path: Assets/Scenes/dungeon_14_room.unity
+    guid: 61e6525ac40970e4393642e8760f9ec5
+  - enabled: 1
+    path: Assets/Scenes/dungeon_15_room.unity
+    guid: b825aeaa4b0c13b4693294b00e2eeb86
+  - enabled: 1
+    path: Assets/Scenes/dungeon_16_room.unity
+    guid: de60c78086afe3b44b0793e39f0dad3d
+  - enabled: 1
+    path: Assets/Scenes/dungeon_17_room.unity
+    guid: f897a29f70de27b4599a961201891704
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
