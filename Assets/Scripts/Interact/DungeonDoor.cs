@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DungeonDoor : InteractableObject 
+public class DungeonDoor : InteractableObject
 {
     private Animator anim;
     private DungeonDoor targetScript;

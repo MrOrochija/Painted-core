@@ -8,17 +8,22 @@ public enum PlayerState { Free, Combat, Frozen }
 public class PlayerMovement : Sounds
 {
     public PlayerState currentState = PlayerState.Free;
-
     public event Action OnDrawAnimationFinished;
 
     private Animator anim;
+    private Rigidbody2D rb;
+    
     private string lastDirection = "down"; 
-
     private float stepTimer = 0f;
+
+    private Vector2 movementInput;
+    private float currentSpeed;
+    private bool isRunning;
 
     void Start()
     {
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -27,11 +32,12 @@ public class PlayerMovement : Sounds
         {
             anim.SetBool("isMoving", false);
             HandleStepSound(false, false, false);
+            movementInput = Vector2.zero;
             return; 
         }
 
-        Vector2 movementInput = Vector2.zero;
-        bool isRunning = false;
+        movementInput = Vector2.zero;
+        isRunning = false;
 
         if (Keyboard.current != null)
         {
@@ -56,10 +62,7 @@ public class PlayerMovement : Sounds
             movementInput.Normalize();
         }
 
-        float currentSpeed = isRunning ? 10f : 5f;
-
-        Vector3 movement = new Vector3(movementInput.x, movementInput.y, 0);
-        transform.position += movement * currentSpeed * Time.deltaTime;
+        currentSpeed = isRunning ? 10f : 5f;
 
         bool isMoving = movementInput.magnitude > 0.01f;
         anim.SetBool("isMoving", isMoving);
@@ -73,8 +76,22 @@ public class PlayerMovement : Sounds
         }
 
         bool directionChanged = isMoving && (lastDirection != oldDirection);
-
         HandleStepSound(isMoving, isRunning, directionChanged);
+    }
+
+    void FixedUpdate()
+    {
+        if (currentState != PlayerState.Free)
+        {
+            rb.linearVelocity = Vector2.zero; 
+            return;
+        }
+
+        Vector2 targetVelocity = movementInput * currentSpeed;
+        
+        Vector2 velocityChange = targetVelocity - rb.linearVelocity;
+        
+        rb.AddForce(velocityChange, ForceMode2D.Impulse);
     }
 
     private void HandleStepSound(bool shouldPlay, bool isRunning, bool directionChanged)
@@ -116,9 +133,7 @@ public class PlayerMovement : Sounds
         yield return new WaitForSeconds(animationLength - 0.1f);
 
         anim.SetBool("isDraw", false);
-        
         currentState = PlayerState.Free; 
-
         OnDrawAnimationFinished?.Invoke(); 
     }
 
