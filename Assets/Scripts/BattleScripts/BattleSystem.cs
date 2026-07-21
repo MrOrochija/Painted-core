@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering.Universal;
 
 [System.Serializable]
 public class BattleFigure
@@ -16,6 +17,8 @@ public class BattleFigure
 
 public class BattleSystem : Sounds
 {
+    public Light2D mainLight;
+    public Light2D playerLight;
     public GameObject player;
     private PlayerHealth playerHealth;
     private PlayerMovement playerMovement;
@@ -169,6 +172,8 @@ public class BattleSystem : Sounds
 
     public void StartBattle(EnemyTrigger script, EnemyHealth script2)
     {
+        LightModule.LightOff(mainLight, playerLight);
+
         if (script != null) enemyTrigger = script;
         if (script2 != null) enemyHealth = script2;
 
@@ -202,9 +207,12 @@ public class BattleSystem : Sounds
                 {
                     UI.enabled = false;
                     dialogue.enabled = false;
+                    selectAction.Deactivate();
                     StartCoroutine(enemyTrigger.RunAway());
                     setCheckpoint.Activate();
                     inventorySystem.Activate();
+
+                    LightModule.SetDark(mainLight, playerLight);
                     
                     if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
                 } else
@@ -243,6 +251,8 @@ public class BattleSystem : Sounds
                     playerHealth.UseManaMax();
                     setCheckpoint.Activate();
                     inventorySystem.Activate();
+
+                    LightModule.SetDark(mainLight, playerLight);
 
                     if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
                 } else
@@ -299,6 +309,8 @@ public class BattleSystem : Sounds
 
                     setCheckpoint.Activate();
                     inventorySystem.Activate();
+
+                    LightModule.SetDark(mainLight, playerLight);
 
                     if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
                 }
