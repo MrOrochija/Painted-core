@@ -12,10 +12,10 @@ EditorBuildSettings:
     path: Assets/Scenes/dungeon_first_room.unity
     guid: d402370fcb310624cba394a34d291f1b
   - enabled: 1
-    path: Assets/Scenes/dungeon_two_room.unity
+    path: Assets/Scenes/two_room.unity
     guid: 2b01b04547a95ff4083238c8d844c7d9
   - enabled: 1
-    path: Assets/Scenes/dungeon_three_room.unity
+    path: Assets/Scenes/three_room.unity
     guid: e973c1075976ced49ad8456f013ec845
   - enabled: 1
     path: Assets/Scenes/dungeon_four_room.unity
