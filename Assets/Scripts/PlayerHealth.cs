@@ -1,51 +1,64 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int currentHealth = 200;
-    public int maxHealth { get; private set; } = 200;
+    private int maxHealth = 200;
+    private int maxMana = 100;
 
-    public int currentMana { get; private set; } = 0;
-    public int maxMana { get; private set; } = 100;
+    public int CurrentHealth { get; private set; }
+    public int CurrentMana { get; private set; }
+    public int MaxHealth => maxHealth;
+    public int MaxMana => maxMana;
 
+    public FadeModule fadeModule;
     public GameObject currentCheckpoint;
+    private PlayerMovement playerMovement;
+
+    void Start()
+    {
+        playerMovement = GetComponent<PlayerMovement>();
+        CurrentHealth = maxHealth;
+        CurrentMana = 0;
+    }
 
     public void GetDamage(int damage)
     {
-        currentHealth -= damage;
+        CurrentHealth = Mathf.Max(0, CurrentHealth - damage);
     }
 
     public void Heal(int heal)
     {
-        currentHealth += heal;
-        if (currentHealth > maxHealth) currentHealth = maxHealth;
+        CurrentHealth = Mathf.Min(maxHealth, CurrentHealth + heal);
     }
 
-    public void HealMax()
-    {
-        currentHealth = maxHealth;
-    }
+    public void HealMax() => CurrentHealth = maxHealth;
 
     public bool UseMana(int amount)
     {
-        if ((currentMana - amount) < 0)
-        {
-            return false;
-        }
-
-        currentMana -= amount;
-
+        if (CurrentMana < amount) return false;
+        
+        CurrentMana -= amount;
         return true;
     }
 
+    public void UseManaMax() => CurrentMana = 0;
+
     public void RestoreMana(int amount)
     {
-        currentMana += amount;
-        if (currentMana > maxMana) currentMana = maxMana;
+        CurrentMana = Mathf.Min(maxMana, CurrentMana + amount);
     }
 
-    public void UseManaMax()
+    public IEnumerator Death()
     {
-        currentMana = 0;
+        yield return StartCoroutine(fadeModule.Fade(1));
+        
+        transform.position = currentCheckpoint.transform.position;
+        HealMax();
+
+        yield return new WaitForSeconds(0.5f);
+        yield return StartCoroutine(fadeModule.Fade(0));
+
+        playerMovement.currentState = PlayerState.Free;
     }
 }

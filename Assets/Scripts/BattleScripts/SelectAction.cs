@@ -7,32 +7,30 @@ public class SelectAction : Sounds
     public Sprite slotSelect;
     public Sprite slotNotSelect;
 
-    private BattleSystem battleSystem;
-    private GameObject slots;
-    private Image slotA;
-    private Image slotB;
-    private Image slotC;
+    public GameObject slots;
+    public Image slotA;
+    public Image slotB;
+    public Image slotC;
 
+    private BattleSystem battleSystem;
     private bool active = false;
+    
     [HideInInspector] public int currentSelection = 1;
 
     void Start()
     {
-        battleSystem = gameObject.GetComponent<BattleSystem>();
+        battleSystem = GetComponent<BattleSystem>();
 
-        Transform slotsTransform = transform.Find("Slots");
-
-        if (slotsTransform != null)
+        if (slots == null)
         {
-            slots = slotsTransform.gameObject;
-
-            Transform transformA = slotsTransform.Find("SlotA");
-            Transform transformB = slotsTransform.Find("SlotB");
-            Transform transformC = slotsTransform.Find("SlotC");
-
-            if (transformA != null) slotA = transformA.GetComponent<Image>();
-            if (transformB != null) slotB = transformB.GetComponent<Image>();
-            if (transformC != null) slotC = transformC.GetComponent<Image>();
+            Transform slotsTransform = transform.Find("Slots");
+            if (slotsTransform != null)
+            {
+                slots = slotsTransform.gameObject;
+                slotA = slotsTransform.Find("SlotA")?.GetComponent<Image>();
+                slotB = slotsTransform.Find("SlotB")?.GetComponent<Image>();
+                slotC = slotsTransform.Find("SlotC")?.GetComponent<Image>();
+            }
         }
 
         UpdateSlots();
@@ -42,31 +40,23 @@ public class SelectAction : Sounds
     {
         if (active && Keyboard.current != null)
         {
-            if (Keyboard.current.dKey.wasPressedThisFrame)
+            if (Keyboard.current.dKey.wasPressedThisFrame && currentSelection < 3)
             {
-                if (currentSelection < 3) 
-                {
-                    currentSelection++;
-                    PlaySound(sounds[0]);
-                    UpdateSlots();
-                }
+                currentSelection++;
+                PlaySound(sounds[0]);
+                UpdateSlots();
             }
-
-            if (Keyboard.current.aKey.wasPressedThisFrame)
+            else if (Keyboard.current.aKey.wasPressedThisFrame && currentSelection > 1)
             {
-                
-                if (currentSelection > 1) 
-                {
-                    currentSelection--;
-                    PlaySound(sounds[0]);
-                    UpdateSlots();
-                }
+                currentSelection--;
+                PlaySound(sounds[0]);
+                UpdateSlots();
             }
-
-            if (Keyboard.current.enterKey.wasPressedThisFrame)
+            else if (Keyboard.current.enterKey.wasPressedThisFrame)
             {
                 PlaySound(sounds[1]);
-                battleSystem.SelectAction(currentSelection);
+                
+                battleSystem.SelectAction((BattleActionType)currentSelection);
             }
         }
     }
@@ -88,13 +78,13 @@ public class SelectAction : Sounds
 
     public void Activate()
     {
-        slots.SetActive(true);
+        if (slots != null) slots.SetActive(true);
         active = true;
     }
 
     public void Deactivate()
     {
-        slots.SetActive(false);
+        if (slots != null) slots.SetActive(false);
         active = false;
     }
 }

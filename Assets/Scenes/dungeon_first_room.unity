@@ -6317,6 +6317,111 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 460870590}
   m_CullTransparentMesh: 1
+--- !u!1 &493045965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 493045967}
+  - component: {fileID: 493045966}
+  m_Layer: 0
+  m_Name: Global Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &493045966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493045965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
+  m_ComponentVersion: 4
+  m_LightType: 4
+  m_BlendStyleIndex: 0
+  m_Light2DProvider:
+    rid: -2
+  m_SelectionSources:
+    rid: 6759144425670049792
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: 00000000
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 6759144425670049792
+      type: {class: Light2DProviderSources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data:
+        m_SelectedHashCode: 4
+        m_SelectedSource:
+          rid: -2
+        m_Provider2DCache:
+          rid: 6759144425670049793
+    - rid: 6759144425670049793
+      type: {class: 'Provider2DCache`1[[UnityEngine.Rendering.Universal.Light2DProvider, Unity.RenderPipelines.Universal.2D.Runtime]]', ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data:
+        m_Cache: []
+--- !u!4 &493045967
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493045965}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.011451, y: -0.5092858, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &510774651
 GameObject:
   m_ObjectHideFlags: 0
@@ -22892,7 +22997,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTrigger
   battle: {fileID: 1854831878}
   player: {fileID: 2083926878}
-  fadeImage: {fileID: 1968029128}
+  fadeModule: {fileID: 0}
+  battleZone: {fileID: 0}
+  zone: {fileID: 0}
+  trigger: {fileID: 0}
+  leftTigger: {fileID: 0}
+  rightTigger: {fileID: 0}
+  inBattle: 0
 --- !u!61 &701011302
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -27214,122 +27325,6 @@ RectTransform:
   m_AnchoredPosition: {x: 440.61765, y: 188.03522}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1138672607
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1138672609}
-  - component: {fileID: 1138672608}
-  m_Layer: 0
-  m_Name: Global Light 2D
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1138672608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1138672607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
-  m_ComponentVersion: 4
-  m_LightType: 1
-  m_BlendStyleIndex: 0
-  m_Light2DProvider:
-    rid: -2
-  m_SelectionSources:
-    rid: 9158164706177056969
-  m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_LightVolumeIntensity: 1
-  m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000
-  m_LightCookieSprite: {fileID: 0}
-  m_DeprecatedPointLightCookieSprite: {fileID: 0}
-  m_LightOrder: 3
-  m_AlphaBlendOnOverlap: 0
-  m_OverlapOperation: 0
-  m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
-  m_UseNormalMap: 0
-  m_ShadowsEnabled: 1
-  m_ShadowIntensity: 0.75
-  m_ShadowSoftness: 0.3
-  m_ShadowSoftnessFalloffIntensity: 0.5
-  m_ShadowVolumeIntensityEnabled: 0
-  m_ShadowVolumeIntensity: 0.75
-  m_LocalBounds:
-    m_Center: {x: -0.0002501011, y: -0.000099897385, z: 0}
-    m_Extent: {x: 5.50045, y: 5.5009003, z: 0}
-  m_PointLightInnerAngle: 360
-  m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1
-  m_ShapeLightParametricSides: 5
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 5
-  m_ShapeLightFalloffOffset: {x: 0, y: 0}
-  m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 9158164706177056969
-      type: {class: Light2DProviderSources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
-      data:
-        m_SelectedHashCode: 1
-        m_SelectedSource:
-          rid: 9158164706177056985
-        m_Provider2DCache:
-          rid: 9158164706177056970
-    - rid: 9158164706177056970
-      type: {class: 'Provider2DCache`1[[UnityEngine.Rendering.Universal.Light2DProvider, Unity.RenderPipelines.Universal.2D.Runtime]]', ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
-      data:
-        m_Cache: []
-    - rid: 9158164706177056985
-      type: {class: Light2DSource_BuiltIn, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
-      data:
-        m_HashCode: 4
-        m_SourceType: 1
-        m_MenuPriority: 0
-        m_MenuName:
-          m_Text: Freeform
-          m_Image: {fileID: 2800000, guid: 68e5bb6e60bebc046b26d3c3100a523b, type: 3}
-          m_Tooltip: 
-          m_TextWithWhitespace: "Freeform\u200B"
---- !u!4 &1138672609
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1138672607}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.04998398, y: -0.08, z: 0}
-  m_LocalScale: {x: 0.89040005, y: 1.64, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2083926886}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1142091200
 GameObject:
   m_ObjectHideFlags: 0
@@ -30753,7 +30748,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTrigger
   battle: {fileID: 1854831878}
   player: {fileID: 2083926878}
-  fadeImage: {fileID: 1968029128}
+  fadeModule: {fileID: 0}
+  battleZone: {fileID: 0}
+  zone: {fileID: 0}
+  trigger: {fileID: 0}
+  leftTigger: {fileID: 0}
+  rightTigger: {fileID: 0}
+  inBattle: 0
 --- !u!61 &1508363787
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -34826,7 +34827,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTrigger
   battle: {fileID: 1854831878}
   player: {fileID: 2083926878}
-  fadeImage: {fileID: 1968029128}
+  fadeModule: {fileID: 0}
+  battleZone: {fileID: 0}
+  zone: {fileID: 0}
+  trigger: {fileID: 0}
+  leftTigger: {fileID: 0}
+  rightTigger: {fileID: 0}
+  inBattle: 0
 --- !u!61 &1635035166
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -35958,7 +35965,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTrigger
   battle: {fileID: 1854831878}
   player: {fileID: 2083926878}
-  fadeImage: {fileID: 1968029128}
+  fadeModule: {fileID: 0}
+  battleZone: {fileID: 0}
+  zone: {fileID: 0}
+  trigger: {fileID: 0}
+  leftTigger: {fileID: 0}
+  rightTigger: {fileID: 0}
+  inBattle: 0
 --- !u!61 &1737349589
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -41933,6 +41946,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f998e488426304e488afc2ae89911e2c, type: 3}
   slotSelect: {fileID: 8472986112374559926, guid: bd7247e49705a9b4995f7cea8871dee5, type: 3}
   slotNotSelect: {fileID: 6769838860527486415, guid: bd7247e49705a9b4995f7cea8871dee5, type: 3}
+  slots: {fileID: 0}
+  slotA: {fileID: 0}
+  slotB: {fileID: 0}
+  slotC: {fileID: 0}
   currentSelection: 1
 --- !u!114 &1854831884
 MonoBehaviour:
@@ -41951,19 +41968,20 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e97e8e99c700bb6409e6a0891819b903, type: 3}
   - {fileID: 8300000, guid: e3be1451a48e0fb448f6ac0edba9eec5, type: 3}
   - {fileID: 8300000, guid: fdfb03024dbd62049bbbfc8a16d49660, type: 3}
-  mainLight: {fileID: 1138672608}
-  playerLight: {fileID: 1138672608}
   player: {fileID: 2083926878}
-  figures: []
   checkpointSystem: {fileID: 822140775}
   invSystem: {fileID: 438921425}
-  fadeImage: {fileID: 1968029128}
+  battleZone: {fileID: 0}
+  zone: {fileID: 0}
+  fadeModule: {fileID: 0}
+  UI: {fileID: 0}
+  dialogue: {fileID: 0}
   playerManaBarRect: {fileID: 265837294}
   playerHealthBarRect: {fileID: 273610353}
   enemyHealthBarRect: {fileID: 1796105461}
   playerHP: {fileID: 1227809174}
   enemyHP: {fileID: 451959369}
-  zone: {fileID: 0}
+  figures: []
 --- !u!1 &1872788022
 GameObject:
   m_ObjectHideFlags: 0
@@ -42292,7 +42310,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTrigger
   battle: {fileID: 1854831878}
   player: {fileID: 2083926878}
-  fadeImage: {fileID: 1968029128}
+  fadeModule: {fileID: 0}
+  battleZone: {fileID: 0}
+  zone: {fileID: 0}
+  trigger: {fileID: 0}
+  leftTigger: {fileID: 0}
+  rightTigger: {fileID: 0}
+  inBattle: 0
 --- !u!61 &1923050013
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -43916,7 +43940,6 @@ Transform:
   - {fileID: 619502821}
   - {fileID: 556639054}
   - {fileID: 546255529}
-  - {fileID: 1138672609}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &2083926887
@@ -44028,7 +44051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0444ebfd744988644aaf59d72c1cbb13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  currentHealth: 200
+  fadeModule: {fileID: 0}
   currentCheckpoint: {fileID: 822140775}
 --- !u!1 &2084823949
 GameObject:
@@ -44940,6 +44963,7 @@ SpriteRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 493045967}
   - {fileID: 137670662}
   - {fileID: 847381878}
   - {fileID: 433690747}

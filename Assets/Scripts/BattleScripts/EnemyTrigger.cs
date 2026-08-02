@@ -1,64 +1,42 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EnemyTrigger : MonoBehaviour
 {
     public GameObject battle;
     public GameObject player;
-    public Image fadeImage;
-    private GameObject battleZone;
-    private GameObject zone;
+    public FadeModule fadeModule;
+    
+    public GameObject battleZone;
+    public GameObject zone;
+
+    public GameObject trigger;
+    public GameObject leftTigger;
+    public GameObject rightTigger;
+
+    [HideInInspector] public bool inBattle = false;
 
     private BattleSystem battleSystem;
     private PlayerMovement plrMovement;
-    private PlayerHealth playerHealth;
     private GameObject enemy;
-    private bool inBattle = false;
-
+    private EnemyHealth enemyHealth;
     private SpriteRenderer enemySpriteRenderer;
 
     void Start()
     {
         if (battle != null) battleSystem = battle.GetComponent<BattleSystem>();
-        if (player != null)
-        {
-            plrMovement = player.GetComponent<PlayerMovement>();
-            playerHealth = player.GetComponent<PlayerHealth>();
-        }
-        
-        Transform battleZoneTransform = battle.transform.Find("BattleZone");
-
-        if (battleZoneTransform != null)
-        {
-            battleZone = battleZoneTransform.gameObject;
-            Transform zoneTransform = battleZone.transform.Find("Zone");
-
-            if (zoneTransform != null)
-            {
-                zone = zoneTransform.gameObject;
-            }
-        }
+        if (player != null) plrMovement = player.GetComponent<PlayerMovement>();
 
         Transform enemyTransform = transform.parent;
         if (enemyTransform != null)
         {
             enemy = enemyTransform.gameObject;
             enemySpriteRenderer = enemy.GetComponent<SpriteRenderer>();
+            enemyHealth = enemy.GetComponent<EnemyHealth>();
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
-    {
-        TryStartBattle(other);
-    }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        TryStartBattle(other);
-    }
-
-    private void TryStartBattle(Collider2D other)
     {
         if (other.CompareTag("Player") && !inBattle)
         {
@@ -69,11 +47,11 @@ public class EnemyTrigger : MonoBehaviour
 
     private IEnumerator InteractRoutine()
     {
-        plrMovement.currentState = PlayerState.Combat; 
+        if (plrMovement != null) plrMovement.currentState = PlayerState.Combat; 
         
-        battleZone.SetActive(false);
+        if (battleZone != null) battleZone.SetActive(false);
 
-        yield return StartCoroutine(Fade(1));
+        yield return StartCoroutine(fadeModule.Fade(1));
 
         if (zone != null)
         {
@@ -81,88 +59,57 @@ public class EnemyTrigger : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.5f);
-        yield return StartCoroutine(Fade(0));
+        yield return StartCoroutine(fadeModule.Fade(0));
 
-        Transform enemyTransform = transform.parent;
-        if (enemyTransform != null)
+        if (enemyHealth != null && battleSystem != null)
         {
-            EnemyHealth enemyHealth = enemyTransform.GetComponent<EnemyHealth>();
             battleSystem.StartBattle(this, enemyHealth);
         }
     }
 
     public IEnumerator RunAway()
     {
-        yield return StartCoroutine(Fade(1));
+        yield return StartCoroutine(fadeModule.Fade(1));
         player.transform.position = enemy.transform.position;
+        
         yield return new WaitForSeconds(0.5f);
-        yield return StartCoroutine(Fade(0));
+        yield return StartCoroutine(fadeModule.Fade(0));
 
-        plrMovement.currentState = PlayerState.Free;
+        if (plrMovement != null) plrMovement.currentState = PlayerState.Free;
 
         yield return new WaitForSeconds(5f);
         inBattle = false;
 
         Collider2D myCollider = GetComponent<Collider2D>();
-        if (myCollider != null)
+        Collider2D playerCollider = player.GetComponent<Collider2D>();
+
+        if (myCollider != null && playerCollider != null && myCollider.IsTouching(playerCollider))
         {
-            Collider2D playerCollider = player.GetComponent<Collider2D>();
-            if (playerCollider != null && myCollider.IsTouching(playerCollider))
-            {
-                inBattle = true;
-                StartCoroutine(InteractRoutine());
-            }
+            inBattle = true;
+            StartCoroutine(InteractRoutine());
         }
     }
 
     public IEnumerator EnemyDead()
     {
-        yield return StartCoroutine(Fade(1));
+        yield return StartCoroutine(fadeModule.Fade(1));
         player.transform.position = enemy.transform.position;
-        SetEnemyAlpha(0);
-        yield return new WaitForSeconds(0.5f);
-        yield return StartCoroutine(Fade(0));
-
-        plrMovement.currentState = PlayerState.Free;
-
-        Destroy(enemy);
-    }
-
-    public IEnumerator PlayerDead()
-    {
-        yield return StartCoroutine(Fade(1));
-        player.transform.position = playerHealth.currentCheckpoint.transform.position;
-        yield return new WaitForSeconds(0.5f);
-        yield return StartCoroutine(Fade(0));
-
-        plrMovement.currentState = PlayerState.Free;
-
-        yield return new WaitForSeconds(5f);
-        inBattle = false;
-    }
-
-    private void SetEnemyAlpha(float alpha)
-    {
+        
         if (enemySpriteRenderer != null)
         {
             Color color = enemySpriteRenderer.color;
-            color.a = alpha;
+            color.a = 0;
             enemySpriteRenderer.color = color;
         }
-    }
 
-    private IEnumerator Fade(float targetAlpha)
-    {
-        float speed = 1f / 0.1f;
-        float currentAlpha = fadeImage.color.a;
+        yield return new WaitForSeconds(0.5f);
+        yield return StartCoroutine(fadeModule.Fade(0));
 
-        while (!Mathf.Approximately(currentAlpha, targetAlpha))
+        if (plrMovement != null) plrMovement.currentState = PlayerState.Free;
+
+        if (enemy != null)
         {
-            currentAlpha = Mathf.MoveTowards(currentAlpha, targetAlpha, speed * Time.deltaTime);
-            Color c = fadeImage.color;
-            c.a = currentAlpha;
-            fadeImage.color = c;
-            yield return null;
+            Destroy(enemy);
         }
     }
 }
