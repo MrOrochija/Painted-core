@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
-public class SelectAction : Sounds
+public class SelectAction : SoundsModule
 {
     public Sprite slotSelect;
     public Sprite slotNotSelect;

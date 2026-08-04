@@ -9,11 +9,9 @@ public class CameraFollow : MonoBehaviour
     {
         if (target != null && active)
         {
-            Vector3 desiredPosition = target.position + new Vector3(0, 2, -10);
-            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, 0.125f);
-            transform.position = smoothedPosition;
+            transform.position = target.position + new Vector3(0, 0, -10);
 
-            transform.LookAt(target);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
 }

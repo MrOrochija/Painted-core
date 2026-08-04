@@ -10,10 +10,6 @@ public class EnemyTrigger : MonoBehaviour
     public GameObject battleZone;
     public GameObject zone;
 
-    public GameObject trigger;
-    public GameObject leftTigger;
-    public GameObject rightTigger;
-
     [HideInInspector] public bool inBattle = false;
 
     private BattleSystem battleSystem;
@@ -21,9 +17,12 @@ public class EnemyTrigger : MonoBehaviour
     private GameObject enemy;
     private EnemyHealth enemyHealth;
     private SpriteRenderer enemySpriteRenderer;
+    private NPCMovement nPCMovement;
 
     void Start()
     {
+        nPCMovement = gameObject.transform.parent.GetComponent<NPCMovement>();
+
         if (battle != null) battleSystem = battle.GetComponent<BattleSystem>();
         if (player != null) plrMovement = player.GetComponent<PlayerMovement>();
 
@@ -47,6 +46,8 @@ public class EnemyTrigger : MonoBehaviour
 
     private IEnumerator InteractRoutine()
     {
+        nPCMovement.canMove = false;
+
         if (plrMovement != null) plrMovement.currentState = PlayerState.Combat; 
         
         if (battleZone != null) battleZone.SetActive(false);
@@ -87,6 +88,9 @@ public class EnemyTrigger : MonoBehaviour
         {
             inBattle = true;
             StartCoroutine(InteractRoutine());
+        } else
+        {
+            nPCMovement.canMove = true;
         }
     }
 

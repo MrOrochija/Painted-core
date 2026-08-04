@@ -16,8 +16,5 @@ public class EnemyHealth : MonoBehaviour
         if (currentHealth > maxHealth) currentHealth = maxHealth;
     }
 
-    public void HealMax()
-    {
-        currentHealth = maxHealth;
-    }
+    public void HealMax() => currentHealth = maxHealth;
 }

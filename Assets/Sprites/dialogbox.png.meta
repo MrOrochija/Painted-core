@@ -1,14 +1,10 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
-guid: 6ac840163f603bb4a9f07c8bea3398fc
-=======
-guid: 1d28a0af5c0c4a649b00fc3cc37980de
->>>>>>> 9a61b4c38cc6286464f0399e29109bd20fbb942a
+guid: db2d9e34a6ac4714cba4fdc7885b518c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5323087837003181992
-    second: dialogbox_0
+      213: -5742626929715910974
+    second: dialogbox 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -41,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -100,40 +96,11 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-<<<<<<< HEAD
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-=======
->>>>>>> 9a61b4c38cc6286464f0399e29109bd20fbb942a
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dialogbox_0
+      name: dialogbox 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -148,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 850193fa0d79026b0800000000000000
-      internalID: -5323087837003181992
+      spriteID: 2c6e0b0bb371e40b0800000000000000
+      internalID: -5742626929715910974
       vertices: []
       indices: 
       edges: []
@@ -168,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      dialogbox_0: -5323087837003181992
+      dialogbox 1_0: -5742626929715910974
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

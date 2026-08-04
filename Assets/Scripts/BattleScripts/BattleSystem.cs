@@ -20,9 +20,8 @@ public enum BattleActionType
     Flee = 3 
 }
 
-public class BattleSystem : Sounds
+public class BattleSystem : SoundsModule
 {
-    [Header("Player & System Refs")]
     public GameObject player;
     public GameObject checkpointSystem;
     public GameObject invSystem;

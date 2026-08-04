@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class DungeonDoor : InteractableObject
 {
@@ -10,7 +9,7 @@ public class DungeonDoor : InteractableObject
     public Transform targetExitPoint;
     public Transform playerTransform;
     private PlayerMovement playerMovement;
-    public Image fadeImage;
+    public FadeModule fadeModule;
     [HideInInspector] public bool coolDown = false;
 
     void Start()
@@ -55,10 +54,7 @@ public class DungeonDoor : InteractableObject
             yield return new WaitForSeconds(animationLength);
         }
 
-        if (fadeImage != null)
-        {
-            yield return StartCoroutine(Fade(1));
-        }
+        yield return StartCoroutine(fadeModule.Fade(1));
 
         if (playerTransform != null && targetExitPoint != null)
         {
@@ -67,10 +63,7 @@ public class DungeonDoor : InteractableObject
 
         yield return new WaitForSeconds(0.2f);
 
-        if (fadeImage != null)
-        {
-            yield return StartCoroutine(Fade(0));
-        }
+        yield return StartCoroutine(fadeModule.Fade(0));
 
         if (playerMovement.currentState != PlayerState.Combat)
         {
@@ -85,21 +78,6 @@ public class DungeonDoor : InteractableObject
         {
             coolDown = false;
             targetScript.coolDown = false;
-        }
-    }
-
-    private IEnumerator Fade(float targetAlpha)
-    {
-        float speed = 1f / 0.5f;
-        float currentAlpha = fadeImage.color.a;
-
-        while (!Mathf.Approximately(currentAlpha, targetAlpha))
-        {
-            currentAlpha = Mathf.MoveTowards(currentAlpha, targetAlpha, speed * Time.deltaTime);
-            Color c = fadeImage.color;
-            c.a = currentAlpha;
-            fadeImage.color = c;
-            yield return null;
         }
     }
 }

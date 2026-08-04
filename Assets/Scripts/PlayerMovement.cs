@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public enum PlayerState { Free, Combat, Frozen }
 
-public class PlayerMovement : Sounds
+public class PlayerMovement : SoundsModule
 {
     public PlayerState currentState = PlayerState.Free;
     public event Action OnDrawAnimationFinished;
