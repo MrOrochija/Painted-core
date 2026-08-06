@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class Settings : MonoBehaviour
 {
-    public GameObject settings;
+    public MenuSystem menuSystem;
 
     public void OnButtonClick()
     {
-        settings.SetActive(true);
+        menuSystem.Settings();
     }
 }
