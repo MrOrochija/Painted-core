@@ -113,12 +113,6 @@ public class EnemyFigure : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void UseMana(int mana)
-    {
-        battleSystem?.UseMana(mana);
-        Destroy(gameObject);
-    }
-
     private void RestoreMana(int mana)
     {
         battleSystem?.RestoreMana(mana);

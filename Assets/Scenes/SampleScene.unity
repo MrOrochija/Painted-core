@@ -26930,7 +26930,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2047515197
 Transform:
   m_ObjectHideFlags: 0
@@ -60904,7 +60904,7 @@ Animator:
   m_GameObject: {fileID: 3986932446046286402}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e4e850dc3e27bfa4fa291d6fc2450198, type: 2}
+  m_Controller: {fileID: 9100000, guid: e1cf84ec5ca2b654193dd06df232c5e9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -63552,6 +63552,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e3be1451a48e0fb448f6ac0edba9eec5, type: 3}
   - {fileID: 8300000, guid: fdfb03024dbd62049bbbfc8a16d49660, type: 3}
   player: {fileID: 37886737}
+  bPlayer: {fileID: 3986932446046286402}
   checkpointSystem: {fileID: 698288891}
   invSystem: {fileID: 1592798500}
   battleZone: {fileID: 753621355798600201}
@@ -64383,6 +64384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a15b54fadef84745965f65ca8b87320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FigureSpawner
+  bEnemy: {fileID: 353911855416051117}
   spawnedCount: 0
 --- !u!82 &6657059456366799286
 AudioSource:
@@ -80619,7 +80621,7 @@ Animator:
   m_GameObject: {fileID: 353911855416051117}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 817ea6f758d28d842824e62e434be74f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 42f9e3ce325c6c44d9d55df286b67851, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -23,6 +23,7 @@ public enum BattleActionType
 public class BattleSystem : SoundsModule
 {
     public GameObject player;
+    public GameObject bPlayer;
     public GameObject checkpointSystem;
     public GameObject invSystem;
     public GameObject battleZone;
@@ -48,10 +49,12 @@ public class BattleSystem : SoundsModule
     private FigureSpawner figureSpawner;
     private SetCheckpoint setCheckpoint;
     private InventorySystem inventorySystem;
+    
+    private bool coolDown = false;
+    private Animator bPlayerAnim;
 
     private LayerMask zoneLayerMask;
     private Camera mainCamera;
-    private bool coolDown = false;
     private Dictionary<RectTransform, Coroutine> barAnimations = new Dictionary<RectTransform, Coroutine>();
 
     void Awake()
@@ -78,6 +81,8 @@ public class BattleSystem : SoundsModule
             playerHealth = player.GetComponent<PlayerHealth>();
             playerMovement = player.GetComponent<PlayerMovement>();
         }
+
+        if (bPlayer != null) bPlayerAnim = bPlayer.GetComponent<Animator>();
     }
 
     void Start()
@@ -112,7 +117,7 @@ public class BattleSystem : SoundsModule
         if (coolDown || figures == null || figures.Length == 0 || zone == null) return;
         
         coolDown = true;
-        StartCoroutine(ResetCoolDown(1f));
+        StartCoroutine(CoolDown(1f));
 
         Vector2 mouseScreenPos = Pointer.current.position.ReadValue();
         Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(new Vector3(mouseScreenPos.x, mouseScreenPos.y, -mainCamera.transform.position.z));
@@ -123,6 +128,14 @@ public class BattleSystem : SoundsModule
         {
             int index = Mathf.Clamp(selectFigure.currentFigureIndex, 0, figures.Length - 1);
             BattleFigure selectedFigure = figures[index];
+
+            if (selectedFigure.name == "Line" || selectedFigure.name == "Triangle")
+            {
+                StartCoroutine(TriggerAnim("Attack"));
+            } else
+            {
+                StartCoroutine(TriggerAnim("Block"));
+            }
             
             if (selectedFigure.manaCost > 0 && !UseMana(selectedFigure.manaCost))
             {
@@ -130,11 +143,18 @@ public class BattleSystem : SoundsModule
             }
             
             PlaySound(sounds[index]);
-            figureSpawner.SpawnFigure(selectedFigure.sprite, mouseWorldPosition, "Player");
+            figureSpawner.SpawnFigure(selectedFigure, mouseWorldPosition, "Player");
         }
     }
 
-    private IEnumerator ResetCoolDown(float delay)
+    private IEnumerator TriggerAnim(string paramName)
+    {
+        bPlayerAnim.SetBool(paramName, true);
+        yield return new WaitForSeconds(0.1f);
+        bPlayerAnim.SetBool(paramName, false);
+    }
+
+    private IEnumerator CoolDown(float delay)
     {
         yield return new WaitForSeconds(delay);
         coolDown = false;

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class FigureSpawner : MonoBehaviour
 {
+    public GameObject bEnemy;
     private SelectAction selectAction;
     private SelectFigure selectFigure;
     private BattleSystem battleSystem;
@@ -20,7 +21,9 @@ public class FigureSpawner : MonoBehaviour
     private float spawnTimer = 0f;
 
     [HideInInspector] public int spawnedCount = 0;
-    private int enemySpawnedCount = 0; 
+    private int enemySpawnedCount = 0;
+
+    private Animator bEnemyAnim;
 
     void Start()
     {
@@ -41,6 +44,8 @@ public class FigureSpawner : MonoBehaviour
 
         Transform enemyFigureTransform = transform.Find("EnemyFigure");
         if (enemyFigureTransform != null) enemyFigure = enemyFigureTransform.gameObject;
+
+        if (bEnemy != null) bEnemyAnim = bEnemy.GetComponent<Animator>();
     }
 
     void Update()
@@ -81,8 +86,8 @@ public class FigureSpawner : MonoBehaviour
     {
         if (figures == null || figures.Length == 0 || zoneCollider == null) return;
 
-        int randomSpriteIndex = Random.Range(0, figures.Length);
-        Sprite randomSprite = figures[randomSpriteIndex].sprite;
+        int randomIndex = Random.Range(0, figures.Length);
+        BattleFigure randomFigure = figures[randomIndex];
 
         Bounds bounds = zoneCollider.bounds;
 
@@ -98,30 +103,46 @@ public class FigureSpawner : MonoBehaviour
         float randomY = Random.Range(minY, maxY);
         Vector2 randomCoordinates = new Vector2(randomX, randomY);
 
-        SpawnFigure(randomSprite, randomCoordinates, "Enemy");
+        SpawnFigure(randomFigure, randomCoordinates, "Enemy");
     }
 
-    public void SpawnFigure(Sprite figureSprite, Vector2 coordinates, string owner)
+    public void SpawnFigure(BattleFigure figure, Vector2 coordinates, string owner)
     {
         GameObject prefab = owner == "Player" ? plrFigure : enemyFigure;
-        if (prefab == null) return;
+        if (prefab == null || figure == null) return;
 
         GameObject newFigure = Instantiate(prefab, coordinates, Quaternion.identity);
         SpriteRenderer spriteRenderer = newFigure.GetComponent<SpriteRenderer>();
 
         if (spriteRenderer != null)
         {
-            spriteRenderer.sprite = figureSprite;
+            spriteRenderer.sprite = figure.sprite;
+        }
+
+        if (figure.name == "Line" || figure.name == "Triangle")
+        {
+            StartCoroutine(TriggerAnim("Attack"));
+        }
+        else if (figure.name == "Circle" || figure.name == "Square")
+        {
+            StartCoroutine(TriggerAnim("Block"));
         }
 
         newFigure.SetActive(true);
-        
+
         if (owner == "Enemy")
         {
             enemySpawnedCount++;
         }
 
         spawnedCount++;
+    }
+
+    private IEnumerator TriggerAnim(string paramName)
+    {
+        bEnemyAnim.SetBool(paramName, true);
+        yield return new WaitForSeconds(0.1f);
+        bEnemyAnim.SetBool(paramName, false);
     }
 
     public void Activate()
