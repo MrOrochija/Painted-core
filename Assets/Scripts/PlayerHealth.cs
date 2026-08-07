@@ -3,6 +3,12 @@ using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public char up = 'w';
+    public char down = 's';
+    public char left = 'a';
+    public char right = 'd';
+    public char interact = 'e';
+    
     private int maxHealth = 200;
     private int maxMana = 100;
 

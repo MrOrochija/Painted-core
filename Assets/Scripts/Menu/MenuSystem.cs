@@ -50,6 +50,11 @@ public class MenuSystem : MonoBehaviour
         settings.SetActive(true);
     }
 
+    public void Exit()
+    {
+        settings.SetActive(false);
+    }
+
     private void SetMenu(bool value)
     {
         buttons.SetActive(value);
