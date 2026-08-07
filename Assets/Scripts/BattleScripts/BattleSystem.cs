@@ -115,9 +115,6 @@ public class BattleSystem : SoundsModule
     private void DetectZoneClick()
     {
         if (coolDown || figures == null || figures.Length == 0 || zone == null) return;
-        
-        coolDown = true;
-        StartCoroutine(CoolDown(1f));
 
         Vector2 mouseScreenPos = Pointer.current.position.ReadValue();
         Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(new Vector3(mouseScreenPos.x, mouseScreenPos.y, -mainCamera.transform.position.z));
@@ -129,19 +126,20 @@ public class BattleSystem : SoundsModule
             int index = Mathf.Clamp(selectFigure.currentFigureIndex, 0, figures.Length - 1);
             BattleFigure selectedFigure = figures[index];
 
+            if (selectedFigure.manaCost > 0 && !UseMana(selectedFigure.manaCost)) return;
+
+            coolDown = true;
+            StartCoroutine(CoolDown(1f));
+
             if (selectedFigure.name == "Line" || selectedFigure.name == "Triangle")
             {
                 StartCoroutine(TriggerAnim("Attack"));
-            } else
+            } 
+            else
             {
                 StartCoroutine(TriggerAnim("Block"));
             }
-            
-            if (selectedFigure.manaCost > 0 && !UseMana(selectedFigure.manaCost))
-            {
-                return;
-            }
-            
+
             PlaySound(sounds[index]);
             figureSpawner.SpawnFigure(selectedFigure, mouseWorldPosition, "Player");
         }
