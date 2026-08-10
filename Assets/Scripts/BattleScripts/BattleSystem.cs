@@ -52,9 +52,9 @@ public class BattleSystem : SoundsModule
     
     private bool coolDown = false;
     private Animator bPlayerAnim;
-
     private LayerMask zoneLayerMask;
     private Camera mainCamera;
+    
     private Dictionary<RectTransform, Coroutine> barAnimations = new Dictionary<RectTransform, Coroutine>();
 
     void Awake()
@@ -145,19 +145,6 @@ public class BattleSystem : SoundsModule
         }
     }
 
-    private IEnumerator TriggerAnim(string paramName)
-    {
-        bPlayerAnim.SetBool(paramName, true);
-        yield return new WaitForSeconds(0.1f);
-        bPlayerAnim.SetBool(paramName, false);
-    }
-
-    private IEnumerator CoolDown(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        coolDown = false;
-    }
-
     public void StartBattle(EnemyTrigger script, EnemyHealth script2)
     {
         enemyTrigger = script;
@@ -165,10 +152,26 @@ public class BattleSystem : SoundsModule
 
         if (dialogue) dialogue.enabled = false;
 
-        inventorySystem.Deactivate();
-        setCheckpoint.Deactivate();
-        selectAction.Activate();
+        if (inventorySystem != null) inventorySystem.Deactivate();
+        if (setCheckpoint != null) setCheckpoint.Deactivate();
+        if (selectAction != null) selectAction.Activate();
+
         InitializeBars();
+    }
+
+    public void EndBattle()
+    {
+        if (selectAction != null) selectAction.Deactivate();
+        if (selectFigure != null) selectFigure.Deactivate();
+        if (figureSpawner != null) figureSpawner.Deactivate();
+        if (battleZone != null) battleZone.SetActive(false);
+        if (UI != null) UI.enabled = false;
+        
+        if (setCheckpoint != null) setCheckpoint.Activate();
+        if (inventorySystem != null) inventorySystem.Activate();
+        
+        if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
+        if (enemyTrigger != null) enemyTrigger.inBattle = false;
     }
 
     public void SelectAction(BattleActionType action)
@@ -176,8 +179,8 @@ public class BattleSystem : SoundsModule
         switch (action)
         {
             case BattleActionType.Fight:
-                UI.enabled = false;
-                dialogue.enabled = false;
+                if (UI) UI.enabled = false;
+                if (dialogue) dialogue.enabled = false;
                 selectAction.Deactivate();
                 battleZone.SetActive(true);
                 selectFigure.Activate();
@@ -185,20 +188,18 @@ public class BattleSystem : SoundsModule
                 break;
 
             case BattleActionType.ToggleUI:
-                UI.enabled = !UI.enabled;
+                if (UI) UI.enabled = !UI.enabled;
                 break;
 
             case BattleActionType.Flee:
-                UI.enabled = false;
-                dialogue.enabled = false;
+                if (UI) UI.enabled = false;
+                if (dialogue) dialogue.enabled = false;
                 selectAction.Deactivate();
 
                 if (Random.value <= 0.35f)
                 {
-                    StartCoroutine(enemyTrigger.RunAway());
-                    setCheckpoint.Activate();
-                    inventorySystem.Activate();
-                    if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
+                    if (enemyTrigger != null) StartCoroutine(enemyTrigger.RunAway());
+                    EndBattle();
                 } 
                 else
                 {
@@ -220,24 +221,13 @@ public class BattleSystem : SoundsModule
 
         if (playerHealth.CurrentHealth <= 0)
         {
-            if (figureSpawner != null) figureSpawner.Deactivate();
-
             PlayerDeath();
-            if (enemyTrigger != null)
-            {
-                selectAction.Deactivate();
-                selectFigure.Deactivate();
-                figureSpawner.Deactivate();
-                enemyHealth.HealMax();
-                
-                playerHealth.HealMax();
-                playerHealth.UseManaMax();
-                
-                setCheckpoint.Activate();
-                inventorySystem.Activate();
-
-                if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
-            }
+            
+            if (enemyHealth != null) enemyHealth.HealMax();
+            playerHealth.HealMax();
+            playerHealth.UseManaMax();
+            
+            EndBattle();
         }
     }
 
@@ -250,15 +240,9 @@ public class BattleSystem : SoundsModule
 
         if (enemyHealth.currentHealth <= 0)
         {
-            if (figureSpawner != null) figureSpawner.Deactivate();
-
-            if (enemyTrigger != null)
-            {
-                StartCoroutine(enemyTrigger.EnemyDead());
-                setCheckpoint.Activate();
-                inventorySystem.Activate();
-                if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
-            }
+            if (enemyTrigger != null) StartCoroutine(enemyTrigger.EnemyDead());
+            
+            EndBattle();
         }
     }
 
@@ -282,13 +266,12 @@ public class BattleSystem : SoundsModule
 
     private void PlayerDeath()
     {
-        StartCoroutine(playerHealth.Death());
-        if (enemyTrigger != null) enemyTrigger.inBattle = false;
+        if (playerHealth != null) StartCoroutine(playerHealth.Death());
     }
 
     public bool UseMana(int amount)
     {
-        if (playerHealth.UseMana(amount))
+        if (playerHealth != null && playerHealth.UseMana(amount))
         {
             SafeAnimateBar(playerManaBarRect, playerHealth.CurrentMana, playerHealth.MaxMana, null);
             return true;
@@ -298,8 +281,26 @@ public class BattleSystem : SoundsModule
 
     public void RestoreMana(int amount)
     {
-        playerHealth.RestoreMana(amount);
-        SafeAnimateBar(playerManaBarRect, playerHealth.CurrentMana, playerHealth.MaxMana, null);
+        if (playerHealth != null)
+        {
+            playerHealth.RestoreMana(amount);
+            SafeAnimateBar(playerManaBarRect, playerHealth.CurrentMana, playerHealth.MaxMana, null);
+        }
+    }
+
+    private IEnumerator TriggerAnim(string paramName)
+    {
+        if (bPlayerAnim == null) yield break;
+        
+        bPlayerAnim.SetBool(paramName, true);
+        yield return new WaitForSeconds(0.1f);
+        bPlayerAnim.SetBool(paramName, false);
+    }
+
+    private IEnumerator CoolDown(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        coolDown = false;
     }
 
     private void InitializeBars()
@@ -318,7 +319,7 @@ public class BattleSystem : SoundsModule
             if (enemyHP != null) enemyHP.text = enemyHealth.currentHealth.ToString();
         }
 
-        if (playerManaBarRect != null)
+        if (playerHealth != null && playerManaBarRect != null)
         {
             float targetXScale = Mathf.Clamp01((float)playerHealth.CurrentMana / playerHealth.MaxMana);
             playerManaBarRect.localScale = new Vector3(targetXScale, playerManaBarRect.localScale.y, 1f);

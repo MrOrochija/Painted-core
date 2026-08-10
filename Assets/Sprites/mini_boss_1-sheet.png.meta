@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: cd3bedc1d19b5da48928108745574438
+=======
+guid: f2066cd2e717be44b9809b9ee3745367
+>>>>>>> 8c9250f (battle system script fix)
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -144,6 +148,7 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+<<<<<<< HEAD
   - serializedVersion: 4
     buildTarget: WebGL
     maxTextureSize: 2048
@@ -170,6 +175,8 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+=======
+>>>>>>> 8c9250f (battle system script fix)
   spriteSheet:
     serializedVersion: 2
     sprites:
