@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: 8d51a58ff7e33544287ba162285390d3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 9179837967127554615
+    second: mini_boss_1_battle-sheet_0
+  - first:
+      213: 9084849458491705050
+    second: mini_boss_1_battle-sheet_1
+  - first:
+      213: 4210153284590064932
+    second: mini_boss_1_battle-sheet_2
+  - first:
+      213: 871520968621575372
+    second: mini_boss_1_battle-sheet_3
+  - first:
+      213: 1033160313712455820
+    second: mini_boss_1_battle-sheet_4
+  - first:
+      213: 2991763584715469913
+    second: mini_boss_1_battle-sheet_5
+  - first:
+      213: -4869028783860770467
+    second: mini_boss_1_battle-sheet_6
+  - first:
+      213: -9168327573112750521
+    second: mini_boss_1_battle-sheet_7
+  - first:
+      213: 8956224529435449889
+    second: mini_boss_1_battle-sheet_8
+  - first:
+      213: 5587694959338660298
+    second: mini_boss_1_battle-sheet_9
+  - first:
+      213: -4872494673603168045
+    second: mini_boss_1_battle-sheet_10
+  - first:
+      213: -1207156642161269769
+    second: mini_boss_1_battle-sheet_11
+  - first:
+      213: 5151062038323245542
+    second: mini_boss_1_battle-sheet_12
+  - first:
+      213: 1919861281634490027
+    second: mini_boss_1_battle-sheet_13
+  - first:
+      213: 5933358634397244285
+    second: mini_boss_1_battle-sheet_14
+  - first:
+      213: 3868359447814568575
+    second: mini_boss_1_battle-sheet_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_0
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 0
+        width: 43
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73a28468ef5556f70800000000000000
+      internalID: 9179837967127554615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 0
+        width: 42
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad64c4be27ed31e70800000000000000
+      internalID: 9084849458491705050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 0
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4255fe12b187d6a30800000000000000
+      internalID: 4210153284590064932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_3
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 0
+        width: 42
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccc4ef414b3481c00800000000000000
+      internalID: 871520968621575372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_4
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 0
+        width: 43
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c80bcd6d4d5865e00800000000000000
+      internalID: 1033160313712455820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_5
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 0
+        width: 42
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9543ae61121e48920800000000000000
+      internalID: 2991763584715469913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_6
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 0
+        width: 26
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5993d84e1cbd6cb0800000000000000
+      internalID: -4869028783860770467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 0
+        width: 41
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74ef13ce5ae83c080800000000000000
+      internalID: -9168327573112750521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_8
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 0
+        width: 43
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12ad3a5e1c6ea4c70800000000000000
+      internalID: 8956224529435449889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_9
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 0
+        width: 42
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac12f9ce5fa7b8d40800000000000000
+      internalID: 5587694959338660298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_10
+      rect:
+        serializedVersion: 2
+        x: 486
+        y: 0
+        width: 26
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d876e1f8eb616cb0800000000000000
+      internalID: -4872494673603168045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_11
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 0
+        width: 41
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f369b30e615f3fe0800000000000000
+      internalID: -1207156642161269769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_12
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 0
+        width: 41
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e1b142e1af3c7740800000000000000
+      internalID: 5151062038323245542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_13
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 0
+        width: 33
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba699dde9a7b4aa10800000000000000
+      internalID: 1919861281634490027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_14
+      rect:
+        serializedVersion: 2
+        x: 671
+        y: 0
+        width: 49
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7b9e30ed36875250800000000000000
+      internalID: 5933358634397244285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini_boss_1_battle-sheet_15
+      rect:
+        serializedVersion: 2
+        x: 719
+        y: 0
+        width: 49
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7a738e1c6c2fa530800000000000000
+      internalID: 3868359447814568575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      mini_boss_1_battle-sheet_0: 9179837967127554615
+      mini_boss_1_battle-sheet_1: 9084849458491705050
+      mini_boss_1_battle-sheet_10: -4872494673603168045
+      mini_boss_1_battle-sheet_11: -1207156642161269769
+      mini_boss_1_battle-sheet_12: 5151062038323245542
+      mini_boss_1_battle-sheet_13: 1919861281634490027
+      mini_boss_1_battle-sheet_14: 5933358634397244285
+      mini_boss_1_battle-sheet_15: 3868359447814568575
+      mini_boss_1_battle-sheet_2: 4210153284590064932
+      mini_boss_1_battle-sheet_3: 871520968621575372
+      mini_boss_1_battle-sheet_4: 1033160313712455820
+      mini_boss_1_battle-sheet_5: 2991763584715469913
+      mini_boss_1_battle-sheet_6: -4869028783860770467
+      mini_boss_1_battle-sheet_7: -9168327573112750521
+      mini_boss_1_battle-sheet_8: 8956224529435449889
+      mini_boss_1_battle-sheet_9: 5587694959338660298
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
