@@ -16421,6 +16421,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChestItem
   inventorySystem: {fileID: 1592798502}
   chest: {fileID: 1082805856}
+--- !u!1 &1132017724
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1132017725}
+  m_Layer: 5
+  m_Name: Dialogue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1132017725
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132017724}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 885292374802695564}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1144421779
 GameObject:
   m_ObjectHideFlags: 0
@@ -34736,7 +34771,7 @@ GameObject:
   - component: {fileID: 2039426268}
   - component: {fileID: 2039426267}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34880,6 +34915,13 @@ MonoBehaviour:
   - Hello1
   - Hello2
   - Hello3
+  shopItems:
+  - itemName: Apple
+    price: 20
+  - itemName: Apple
+    price: 20
+  - itemName: Apple
+    price: 20
 --- !u!1 &2047515196
 GameObject:
   m_ObjectHideFlags: 0
@@ -46042,6 +46084,7 @@ RectTransform:
   - {fileID: 3593221936592903376}
   - {fileID: 2406450229047085667}
   - {fileID: 946548005}
+  - {fileID: 1132017725}
   m_Father: {fileID: 4034767406849002029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -72949,16 +72992,10 @@ MonoBehaviour:
   selectPanel: {fileID: 7399465853146831372}
   buyPanel: {fileID: 946548004}
   buyDialoguePanel: {fileID: 710439038}
-  items:
-  - itemName: Apple
-    price: 20
-    slotText: {fileID: 1945081531}
-  - itemName: Apple
-    price: 20
-    slotText: {fileID: 1424639862}
-  - itemName: Apple
-    price: 20
-    slotText: {fileID: 1397165273}
+  uiSlots:
+  - {fileID: 1945081531}
+  - {fileID: 1424639862}
+  - {fileID: 1397165273}
 --- !u!82 &6114643831411934275
 AudioSource:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Shop : InteractableObject
 {
@@ -7,6 +8,8 @@ public class Shop : InteractableObject
     [TextArea(2, 5)]
     public string[] dialogue;
 
+    public List<ShopItemData> shopItems = new List<ShopItemData>();
+
     public override void Interact()
     {
         if (dialogue != null && dialogue.Length > 0)
@@ -14,7 +17,7 @@ public class Shop : InteractableObject
             int randomIndex = Random.Range(0, dialogue.Length);
             string randomText = dialogue[randomIndex];
 
-            shopSystem.Active(randomText); 
+            shopSystem.Active(randomText, shopItems); 
         }
     }
 }

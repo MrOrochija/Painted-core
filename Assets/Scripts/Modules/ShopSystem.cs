@@ -5,16 +5,14 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class ShopItem
+public class ShopItemData
 {
     public string itemName;
     public int price;
-    public TMP_Text slotText;
 }
 
 public class ShopSystem : SoundsModule
 {
-    [Header("References")]
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private ShopBuy shopBuy;
     [SerializeField] private InventorySystem inventorySystem;
@@ -22,19 +20,21 @@ public class ShopSystem : SoundsModule
     [SerializeField] private TMP_Text mainText;
     [SerializeField] private TMP_Text dialogueText;
 
-    [Header("UI Panels")]
     [SerializeField] private GameObject selectPanel;
     [SerializeField] private GameObject buyPanel;
     [SerializeField] private GameObject buyDialoguePanel;
 
-    [Header("Shop Content")]
-    [SerializeField] private List<ShopItem> items = new List<ShopItem>();
+    [SerializeField] private List<TMP_Text> uiSlots = new List<TMP_Text>();
+
+    private List<ShopItemData> currentShopItems;
 
     private Coroutine typeRoutine;
     private readonly WaitForSeconds textDelay = new WaitForSeconds(0.03f);
 
-    public void Active(string messageText)
+    public void Active(string messageText, List<ShopItemData> itemsToSell)
     {
+        currentShopItems = itemsToSell;
+
         if (playerMovement != null) playerMovement.currentState = PlayerState.Frozen;
         if (ui != null) ui.SetActive(true);
 
@@ -46,11 +46,16 @@ public class ShopSystem : SoundsModule
         if (selectPanel != null) selectPanel.SetActive(false);
         if (buyPanel != null) buyPanel.SetActive(true);
 
-        foreach (var item in items)
+        foreach (var slot in uiSlots)
         {
-            if (item.slotText != null && !string.IsNullOrEmpty(item.itemName))
+            if (slot != null) slot.text = "";
+        }
+
+        for (int i = 0; i < currentShopItems.Count; i++)
+        {
+            if (i < uiSlots.Count && uiSlots[i] != null)
             {
-                item.slotText.text = item.itemName;
+                uiSlots[i].text = currentShopItems[i].itemName;
             }
         }
     }
@@ -78,18 +83,20 @@ public class ShopSystem : SoundsModule
         if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
         if (ui != null) ui.SetActive(false);
 
+        currentShopItems = null;
         StopCurrentTyping();
     }
 
     public void ClickSlot(int slotIndex)
     {
-        if (slotIndex < 0 || slotIndex >= items.Count) return;
+        if (currentShopItems == null || slotIndex < 0 || slotIndex >= currentShopItems.Count) return;
 
         if (mainText != null) mainText.gameObject.SetActive(false);
         if (buyDialoguePanel != null) buyDialoguePanel.SetActive(true);
 
-        ShopItem item = items[slotIndex];
+        ShopItemData item = currentShopItems[slotIndex];
         string messageText = $"{item.itemName} costs {item.price}\nAre you sure you want to buy this?";
+        
         shopBuy.itemName = item.itemName;
         shopBuy.price = item.price;
 
