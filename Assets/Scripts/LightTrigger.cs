@@ -6,6 +6,8 @@ public class LightTrigger : MonoBehaviour
     public Light2D mainLight;
     public Light2D playerLight;
 
+    public bool toggle;
+
     public enum LightingMode 
     { 
         SetDark, 
@@ -29,6 +31,7 @@ public class LightTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if (toggle) return;
         if (other.CompareTag("Player"))
         {
             LightModule.ChangeLight(this, modeBeforeEnter, mainLight, playerLight);
