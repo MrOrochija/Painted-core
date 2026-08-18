@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class EraserToggle : MonoBehaviour
 {
     public Drawing drawableCanvas;
+    public Toggle fillToggle;
 
     private Toggle toggle;
     private Color savedBrushColor = Color.black;
@@ -21,8 +22,12 @@ public class EraserToggle : MonoBehaviour
 
         if (isEraserActive)
         {
-            savedBrushColor = drawableCanvas.brushColor;
+            if (fillToggle != null && fillToggle.isOn)
+            {
+                fillToggle.isOn = false;
+            }
 
+            savedBrushColor = drawableCanvas.brushColor;
             drawableCanvas.brushColor = drawableCanvas.clearColor;
         }
         else

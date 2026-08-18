@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -5,16 +6,13 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(RawImage))]
 public class Drawing : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
-    [Header("State")]
-    [Tooltip("Если false — рисование заблокировано")]
     public bool active = true; 
+    public bool fill = false;
 
-    [Header("Canvas Settings")]
     public int textureWidth = 512;
     public int textureHeight = 512;
     public Color clearColor = new Color(0f, 0f, 0f, 0f); 
 
-    [Header("Brush Settings")]
     public Color brushColor = Color.black;
     public int brushSize = 8;
 
@@ -46,7 +44,7 @@ public class Drawing : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!active) return;
+        if (!active || fill) return;
 
         DrawAtPointer(eventData);
     }
@@ -60,8 +58,14 @@ public class Drawing : MonoBehaviour, IPointerDownHandler, IDragHandler
             out Vector2 localPoint))
         {
             Rect rect = rectTransform.rect;
-            float px = (localPoint.x - rect.x) / rect.width * textureWidth;
-            float py = (localPoint.y - rect.y) / rect.height * textureHeight;
+            int px = Mathf.Clamp((int)((localPoint.x - rect.x) / rect.width * textureWidth), 0, textureWidth - 1);
+            int py = Mathf.Clamp((int)((localPoint.y - rect.y) / rect.height * textureHeight), 0, textureHeight - 1);
+
+            if (fill)
+            {
+                FloodFill(px, py);
+                return;
+            }
 
             Vector2 currentPixelPos = new Vector2(px, py);
 
@@ -71,7 +75,7 @@ public class Drawing : MonoBehaviour, IPointerDownHandler, IDragHandler
             }
             else
             {
-                DrawCircle((int)px, (int)py);
+                DrawCircle(px, py);
             }
 
             lastPixelPos = currentPixelPos;
@@ -79,6 +83,56 @@ public class Drawing : MonoBehaviour, IPointerDownHandler, IDragHandler
 
             texture.Apply();
         }
+    }
+
+    private void FloodFill(int startX, int startY)
+    {
+        Color[] pixels = texture.GetPixels();
+        Color targetColor = pixels[startY * textureWidth + startX];
+
+        if (ColorsMatch(targetColor, brushColor)) return;
+
+        Queue<Vector2Int> queue = new Queue<Vector2Int>();
+        queue.Enqueue(new Vector2Int(startX, startY));
+
+        bool[] visited = new bool[textureWidth * textureHeight];
+        visited[startY * textureWidth + startX] = true;
+
+        while (queue.Count > 0)
+        {
+            Vector2Int pt = queue.Dequeue();
+            int index = pt.y * textureWidth + pt.x;
+
+            pixels[index] = brushColor;
+
+            CheckNeighbor(pt.x + 1, pt.y, targetColor, pixels, visited, queue);
+            CheckNeighbor(pt.x - 1, pt.y, targetColor, pixels, visited, queue);
+            CheckNeighbor(pt.x, pt.y + 1, targetColor, pixels, visited, queue);
+            CheckNeighbor(pt.x, pt.y - 1, targetColor, pixels, visited, queue);
+        }
+
+        texture.SetPixels(pixels);
+        texture.Apply();
+    }
+
+    private void CheckNeighbor(int x, int y, Color targetColor, Color[] pixels, bool[] visited, Queue<Vector2Int> queue)
+    {
+        if (x < 0 || x >= textureWidth || y < 0 || y >= textureHeight) return;
+
+        int index = y * textureWidth + x;
+        if (!visited[index] && ColorsMatch(pixels[index], targetColor))
+        {
+            visited[index] = true;
+            queue.Enqueue(new Vector2Int(x, y));
+        }
+    }
+
+    private bool ColorsMatch(Color a, Color b)
+    {
+        return Mathf.Approximately(a.r, b.r) &&
+               Mathf.Approximately(a.g, b.g) &&
+               Mathf.Approximately(a.b, b.b) &&
+               Mathf.Approximately(a.a, b.a);
     }
 
     private void DrawLine(Vector2 start, Vector2 end)
