@@ -7,15 +7,17 @@ public static class LightModule
     public static LightTrigger.LightingMode currentLightMode = LightTrigger.LightingMode.SetSunny;
     
     private static Coroutine currentRoutine;
+    private static MonoBehaviour currentHost;
 
     public static void ChangeLight(MonoBehaviour host, LightTrigger.LightingMode mode, Light2D mainLight, Light2D playerLight)
     {
-        if (currentRoutine != null)
+        if (currentRoutine != null && currentHost != null)
         {
-            host.StopCoroutine(currentRoutine);
+            currentHost.StopCoroutine(currentRoutine);
         }
 
         currentLightMode = mode;
+        currentHost = host;
 
         IEnumerator targetRoutine = mode switch
         {
@@ -27,12 +29,14 @@ public static class LightModule
 
         if (targetRoutine != null)
         {
-            currentRoutine = host.StartCoroutine(targetRoutine);
+            currentRoutine = currentHost.StartCoroutine(targetRoutine);
         }
     }
 
     public static IEnumerator SetDark(Light2D mainLight, Light2D playerLight, float duration = 1.0f)
     {
+        if (mainLight == null || playerLight == null) yield break;
+
         playerLight.enabled = true;
 
         float startMain = mainLight.intensity;
@@ -59,11 +63,15 @@ public static class LightModule
 
     public static IEnumerator SetSunny(Light2D mainLight, Light2D playerLight, float duration = 1.0f)
     {
+        if (mainLight == null || playerLight == null) yield break;
+
         float startMain = mainLight.intensity;
         float targetMain = 1.0f;
 
         float startPlayer = playerLight.intensity;
         float targetPlayer = 0f;
+
+        playerLight.enabled = true; 
 
         float elapsed = 0f;
         while (elapsed < duration)
@@ -84,6 +92,8 @@ public static class LightModule
 
     public static IEnumerator LightOff(Light2D mainLight, Light2D playerLight, float duration = 1.0f)
     {
+        if (mainLight == null || playerLight == null) yield break;
+
         float startMain = mainLight.intensity;
         float targetMain = 0f;
 

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering.Universal;
 
 [System.Serializable]
 public class BattleFigure
@@ -22,6 +23,8 @@ public enum BattleActionType
 
 public class BattleSystem : SoundsModule
 {
+    public Light2D mainLight;
+    public Light2D playerLight;
     public GameObject player;
     public GameObject bPlayer;
     public GameObject checkpointSystem;
@@ -88,6 +91,8 @@ public class BattleSystem : SoundsModule
     void Start()
     {
         mainCamera = Camera.main;
+
+        LightModule.ChangeLight(this, LightTrigger.LightingMode.SetDark, mainLight, playerLight);
         PlaySound(sounds[5]);
 
         InitializeBars();
@@ -149,6 +154,8 @@ public class BattleSystem : SoundsModule
 
     public void StartBattle(EnemyTrigger script, EnemyHealth script2)
     {
+        LightModule.ChangeLight(this, LightTrigger.LightingMode.SetSunny, mainLight, playerLight);
+
         enemyTrigger = script;
         enemyHealth = script2;
 
@@ -158,10 +165,10 @@ public class BattleSystem : SoundsModule
         if (setCheckpoint != null) setCheckpoint.Deactivate();
         if (selectAction != null) selectAction.Activate();
 
-        StopSound();
-        PlaySound(sounds[4]);
-
         InitializeBars();
+
+        StopSound();
+        PlaySound(sounds[4], 0.2f);
     }
 
     public void EndBattle()
@@ -176,7 +183,8 @@ public class BattleSystem : SoundsModule
         if (inventorySystem != null) inventorySystem.Activate();
         
         if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
-        if (enemyTrigger != null) enemyTrigger.inBattle = false;
+
+        LightModule.ChangeLight(this, LightTrigger.LightingMode.SetDark, mainLight, playerLight);
 
         StopSound();
         PlaySound(sounds[5]);

@@ -49,7 +49,7 @@ public class EnemyTrigger : MonoBehaviour
         nPCMovement.canMove = false;
 
         if (plrMovement != null) plrMovement.currentState = PlayerState.Combat; 
-        
+
         if (battleZone != null) battleZone.SetActive(false);
 
         yield return StartCoroutine(fadeModule.Fade(1));
@@ -59,13 +59,14 @@ public class EnemyTrigger : MonoBehaviour
             player.transform.position = zone.transform.position;
         }
 
-        yield return new WaitForSeconds(0.5f);
-        yield return StartCoroutine(fadeModule.Fade(0));
-
         if (enemyHealth != null && battleSystem != null)
         {
             battleSystem.StartBattle(this, enemyHealth);
         }
+
+        yield return new WaitForSeconds(0.5f);
+
+        yield return StartCoroutine(fadeModule.Fade(0));
     }
 
     public IEnumerator RunAway()
