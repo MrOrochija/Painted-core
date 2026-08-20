@@ -18646,6 +18646,7 @@ Transform:
   m_Children:
   - {fileID: 1434654268}
   - {fileID: 2063639832}
+  - {fileID: 1455324625}
   m_Father: {fileID: 59993414648910488}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &908845516
@@ -32016,6 +32017,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RectMask2D
   m_Padding: {x: -8, y: -5, z: -8, w: -5}
   m_Softness: {x: 0, y: 0}
+--- !u!1 &1455324624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1455324625}
+  m_Layer: 0
+  m_Name: Enemies
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1455324625
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455324624}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 907322756}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1457513535
 GameObject:
   m_ObjectHideFlags: 0
@@ -107396,6 +107428,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e97e8e99c700bb6409e6a0891819b903, type: 3}
   - {fileID: 8300000, guid: e3be1451a48e0fb448f6ac0edba9eec5, type: 3}
   - {fileID: 8300000, guid: fdfb03024dbd62049bbbfc8a16d49660, type: 3}
+  - {fileID: 8300000, guid: fcfa2a67e9dad004b8ad3da29510f8f7, type: 3}
+  - {fileID: 8300000, guid: 6e5aaee1359d54e4eb0063f667431cbc, type: 3}
   player: {fileID: 37886737}
   bPlayer: {fileID: 3986932446046286402}
   checkpointSystem: {fileID: 698288891}

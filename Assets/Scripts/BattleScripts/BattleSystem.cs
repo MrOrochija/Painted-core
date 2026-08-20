@@ -88,6 +88,8 @@ public class BattleSystem : SoundsModule
     void Start()
     {
         mainCamera = Camera.main;
+        PlaySound(sounds[5]);
+
         InitializeBars();
     }
 
@@ -156,6 +158,9 @@ public class BattleSystem : SoundsModule
         if (setCheckpoint != null) setCheckpoint.Deactivate();
         if (selectAction != null) selectAction.Activate();
 
+        StopSound();
+        PlaySound(sounds[4]);
+
         InitializeBars();
     }
 
@@ -172,6 +177,9 @@ public class BattleSystem : SoundsModule
         
         if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
         if (enemyTrigger != null) enemyTrigger.inBattle = false;
+
+        StopSound();
+        PlaySound(sounds[5]);
     }
 
     public void SelectAction(BattleActionType action)
