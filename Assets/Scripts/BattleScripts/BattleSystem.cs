@@ -54,6 +54,7 @@ public class BattleSystem : SoundsModule
     private InventorySystem inventorySystem;
     
     private bool coolDown = false;
+    private Coroutine coolDownCoroutine;
     private Animator bPlayerAnim;
     private LayerMask zoneLayerMask;
     private Camera mainCamera;
@@ -136,7 +137,8 @@ public class BattleSystem : SoundsModule
             if (selectedFigure.manaCost > 0 && !UseMana(selectedFigure.manaCost)) return;
 
             coolDown = true;
-            StartCoroutine(CoolDown(1f));
+            if (coolDownCoroutine != null) StopCoroutine(coolDownCoroutine);
+            coolDownCoroutine = StartCoroutine(CoolDown(1f));
 
             if (selectedFigure.name == "Line" || selectedFigure.name == "Triangle")
             {
@@ -166,6 +168,8 @@ public class BattleSystem : SoundsModule
         if (selectAction != null) selectAction.Activate();
 
         InitializeBars();
+        
+        ResetCoolDown();
 
         StopSound();
         PlaySound(sounds[4], 0.2f);
@@ -183,6 +187,8 @@ public class BattleSystem : SoundsModule
         if (inventorySystem != null) inventorySystem.Activate();
         
         if (playerMovement != null) playerMovement.currentState = PlayerState.Free;
+
+        ResetCoolDown();
 
         LightModule.ChangeLight(this, LightTrigger.LightingMode.SetDark, mainLight, playerLight);
 
@@ -315,8 +321,19 @@ public class BattleSystem : SoundsModule
 
     private IEnumerator CoolDown(float delay)
     {
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSecondsRealtime(delay); 
         coolDown = false;
+        coolDownCoroutine = null;
+    }
+
+    private void ResetCoolDown()
+    {
+        coolDown = false;
+        if (coolDownCoroutine != null)
+        {
+            StopCoroutine(coolDownCoroutine);
+            coolDownCoroutine = null;
+        }
     }
 
     private void InitializeBars()
